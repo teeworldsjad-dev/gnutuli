@@ -14,7 +14,7 @@
   --bg0:#0a0e13; --bg1:#121a24; --bg2:#1a1420;
   --ink:#f4ead9; --muted:#93a3b4;
   --gold:#f2b23e; --amber:#ffcf6e; --cyan:#3fd8e2; --magenta:#ff4f93;
-  --green:#5ce087; --violet:#a78bfa; --red:#ff5c5c; --leather:#a45a32;
+  --green:#5ce087; --violet:#a78bfa; --red:#ff5c5c; --crimson:#b3243f;
   --panel:rgba(15,21,29,.86); --panel2:rgba(20,27,36,.96);
   --line:rgba(242,178,62,.28); --line2:rgba(255,255,255,.09);
   --disp:'Unbounded',system-ui,sans-serif; --body:'Manrope',system-ui,sans-serif;
@@ -34,9 +34,9 @@ body{
 button{font-family:var(--body);cursor:pointer;border:0;color:inherit;background:none}
 button:focus-visible,input:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 
-#bg{position:fixed;inset:0;z-index:0;background:linear-gradient(160deg,#0a0e13 0%,#101a26 46%,#1a1420 100%);overflow:hidden}
+#bg{position:fixed;inset:0;z-index:0;background:linear-gradient(158deg,#0a0e13 0%,#101a26 42%,#20121c 78%,#1a1420 100%);overflow:hidden}
 #bg::before,#bg::after{content:"";position:absolute;width:70vmax;height:70vmax;border-radius:50%;filter:blur(60px);opacity:.5}
-#bg::before{background:radial-gradient(circle,rgba(242,178,62,.16),rgba(255,79,147,.07) 45%,transparent 70%);top:-25vmax;left:-18vmax;animation:blobA 42s ease-in-out infinite alternate}
+#bg::before{background:radial-gradient(circle,rgba(242,178,62,.17),rgba(179,36,63,.10) 45%,transparent 70%);top:-25vmax;left:-18vmax;animation:blobA 42s ease-in-out infinite alternate}
 #bg::after{background:radial-gradient(circle,rgba(63,216,226,.13),rgba(167,139,250,.08) 50%,transparent 72%);bottom:-28vmax;right:-20vmax;animation:blobB 36s ease-in-out infinite alternate}
 @keyframes blobA{to{transform:translate(9vmax,7vmax) rotate(25deg)}}
 @keyframes blobB{to{transform:translate(-8vmax,-6vmax) rotate(-20deg)}}
@@ -44,7 +44,7 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--gold);outline-o
 #stage canvas{display:block}
 #grain{position:fixed;inset:0;z-index:2;pointer-events:none;opacity:.05;mix-blend-mode:overlay;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E")}
-#vignette{position:fixed;inset:0;z-index:2;pointer-events:none;background:radial-gradient(ellipse at 50% 42%,transparent 52%,rgba(4,6,10,.62) 100%)}
+#vignette{position:fixed;inset:0;z-index:2;pointer-events:none;background:radial-gradient(ellipse at 50% 40%,transparent 50%,rgba(4,6,10,.66) 100%)}
 
 body.mobile #grain{display:none}
 body.mobile #bg::before,body.mobile #bg::after{animation:none;filter:blur(40px);opacity:.42;width:52vmax;height:52vmax}
@@ -62,14 +62,15 @@ body.mobile #splash{background:rgba(6,9,14,.55)}
 #hudMid{min-width:0;text-align:center;pointer-events:none}
 #hudTitle{font-family:var(--disp);font-weight:700;font-size:13px;letter-spacing:.05em;text-transform:uppercase;color:var(--amber);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-shadow:0 2px 12px rgba(0,0,0,.75)}
 #hudVerse{font-size:11px;font-style:italic;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:2px}
-#stats{position:fixed;top:calc(64px + var(--safeT));left:0;right:0;z-index:5;display:flex;justify-content:center;gap:8px;pointer-events:none}
-.stat{background:var(--panel);border:1px solid var(--line2);border-radius:999px;padding:5px 12px;font-size:12px;font-weight:800;font-variant-numeric:tabular-nums;backdrop-filter:blur(12px);color:var(--ink)}
+#stats{position:fixed;top:calc(64px + var(--safeT));left:0;right:0;z-index:5;display:flex;justify-content:center;gap:6px;pointer-events:none;flex-wrap:wrap;padding:0 8px}
+.stat{background:var(--panel);border:1px solid var(--line2);border-radius:999px;padding:5px 11px;font-size:12px;font-weight:800;font-variant-numeric:tabular-nums;backdrop-filter:blur(12px);color:var(--ink)}
 .stat.warn{color:var(--red);border-color:rgba(255,92,92,.5);animation:pulse 1s infinite}
+.stat.lock{color:var(--cyan);border-color:rgba(63,216,226,.5)}
 @keyframes pulse{50%{transform:scale(1.06)}}
-#hint{position:fixed;left:50%;transform:translateX(-50%);bottom:300px;z-index:4;background:rgba(13,18,26,.94);border:1px solid var(--line);border-radius:999px;padding:8px 16px;font-size:12px;color:var(--amber);pointer-events:none;transition:opacity .6s;white-space:nowrap;max-width:92vw;overflow:hidden;text-overflow:ellipsis}
+#hint{position:fixed;left:50%;transform:translateX(-50%);bottom:330px;z-index:4;background:rgba(13,18,26,.94);border:1px solid var(--line);border-radius:999px;padding:8px 16px;font-size:12px;color:var(--amber);pointer-events:none;transition:opacity .6s;white-space:nowrap;max-width:92vw;overflow:hidden;text-overflow:ellipsis}
 #hint.gone{opacity:0}
 
-#bottom{position:fixed;left:0;right:0;bottom:0;z-index:5;display:flex;flex-direction:column;align-items:center;gap:8px;padding:0 calc(10px + var(--safeL)) calc(10px + var(--safeB)) calc(10px + var(--safeR));pointer-events:none}
+#bottom{position:fixed;left:0;right:0;bottom:0;z-index:5;display:flex;flex-direction:column;align-items:center;gap:7px;padding:0 calc(10px + var(--safeL)) calc(10px + var(--safeB)) calc(10px + var(--safeR));pointer-events:none}
 #bottom>*{pointer-events:auto}
 #holdWrap{pointer-events:none;display:none;flex-direction:column;align-items:center;gap:2px}
 #holdWrap.on{display:flex}
@@ -84,8 +85,14 @@ body.mobile #splash{background:rgba(6,9,14,.55)}
 .chip.ok{color:var(--green);border-color:rgba(92,224,135,.55);box-shadow:0 0 12px rgba(92,224,135,.25)}
 .chip.hot{color:var(--magenta);border-color:rgba(255,79,147,.55);box-shadow:0 0 12px rgba(255,79,147,.3)}
 .chip.dim{opacity:.55}
-#dock{width:100%;max-width:640px;background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:12px 14px;backdrop-filter:blur(16px);box-shadow:0 12px 40px rgba(0,0,0,.5)}
-.srow{display:grid;grid-template-columns:88px 1fr 50px;align-items:center;gap:8px;height:32px}
+#dock{width:100%;max-width:660px;background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:11px 13px;backdrop-filter:blur(16px);box-shadow:0 12px 40px rgba(0,0,0,.5)}
+#gestureRow{display:flex;gap:6px;align-items:stretch;margin-bottom:8px}
+#gestureSeg{display:flex;gap:4px;flex:1;background:rgba(255,255,255,.05);border-radius:12px;padding:3px}
+#gestureSeg button{flex:1;min-height:34px;border-radius:9px;font-weight:800;font-size:12px;color:var(--muted);display:flex;align-items:center;justify-content:center;gap:5px;transition:color .18s,background .18s}
+#gestureSeg button.on{background:linear-gradient(120deg,var(--gold),#ff9d3e);color:#161006}
+#lockBtn{width:52px;border-radius:12px;background:rgba(255,255,255,.05);border:1px solid var(--line2);font-size:17px;color:var(--muted);transition:border-color .2s,color .2s,box-shadow .2s}
+#lockBtn.on{color:var(--cyan);border-color:rgba(63,216,226,.6);box-shadow:0 0 14px rgba(63,216,226,.28);background:rgba(63,216,226,.10)}
+.srow{display:grid;grid-template-columns:86px 1fr 50px;align-items:center;gap:8px;height:31px}
 .srow label{font-size:12px;font-weight:800;color:var(--ink);display:flex;align-items:center;gap:6px;white-space:nowrap}
 .srow label .si{color:var(--c);font-size:14px;width:16px;text-align:center}
 .srow output{font-size:12px;font-weight:800;font-variant-numeric:tabular-nums;color:var(--c);text-align:right}
@@ -95,18 +102,18 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;heigh
 input[type=range]::-moz-range-track{height:6px;border-radius:3px;background:rgba(255,255,255,.12)}
 input[type=range]::-moz-range-progress{height:6px;border-radius:3px;background:var(--c)}
 input[type=range]::-moz-range-thumb{width:16px;height:16px;border-radius:50%;background:var(--c);border:3px solid #0d1219;box-shadow:0 0 10px var(--c)}
-#actions{display:flex;gap:8px;margin-top:10px}
-.actBtn{flex:1;min-height:42px;border-radius:13px;font-weight:800;font-size:13px;background:rgba(255,255,255,.07);border:1px solid var(--line2);color:var(--ink);transition:transform .12s,border-color .2s}
+#actions{display:flex;gap:7px;margin-top:9px}
+.actBtn{flex:1;min-height:40px;border-radius:13px;font-weight:800;font-size:12px;background:rgba(255,255,255,.07);border:1px solid var(--line2);color:var(--ink);transition:transform .12s,border-color .2s}
 .actBtn:hover{border-color:var(--line)}
 .actBtn:active{transform:scale(.95)}
 
 .overlay{position:fixed;inset:0;z-index:10;display:flex;align-items:center;justify-content:center;padding:calc(16px + var(--safeT)) calc(16px + var(--safeR)) calc(16px + var(--safeB)) calc(16px + var(--safeL));background:rgba(6,9,14,.74);backdrop-filter:blur(10px);opacity:0;pointer-events:none;transition:opacity .22s}
 .overlay.open{opacity:1;pointer-events:auto}
-.card{width:100%;max-width:560px;max-height:100%;overflow-y:auto;background:var(--panel2);border:1px solid var(--line);border-radius:24px;padding:22px;box-shadow:0 24px 80px rgba(0,0,0,.6);transform:translateY(14px) scale(.98);transition:transform .28s cubic-bezier(.2,.9,.3,1.2)}
+.card{width:100%;max-width:580px;max-height:100%;overflow-y:auto;background:var(--panel2);border:1px solid var(--line);border-radius:24px;padding:22px;box-shadow:0 24px 80px rgba(0,0,0,.6);transform:translateY(14px) scale(.98);transition:transform .28s cubic-bezier(.2,.9,.3,1.2)}
 .overlay.open .card{transform:none}
 .card::-webkit-scrollbar,#splash::-webkit-scrollbar{width:10px}
 .card::-webkit-scrollbar-track,#splash::-webkit-scrollbar-track{background:rgba(255,255,255,.04);border-radius:5px}
-.card::-webkit-scrollbar-thumb,#splash::-webkit-scrollbar-thumb{background:linear-gradient(var(--gold),#c97f2a);border-radius:5px;border:2px solid #121a24}
+.card::-webkit-scrollbar-thumb,#splash::-webkit-scrollbar-thumb{background:linear-gradient(var(--gold),var(--crimson));border-radius:5px;border:2px solid #121a24}
 .card::-webkit-scrollbar-thumb:hover,#splash::-webkit-scrollbar-thumb:hover{background:var(--amber)}
 .card{scrollbar-width:thin;scrollbar-color:var(--gold) rgba(255,255,255,.05)}
 .cardTitle{font-family:var(--disp);font-weight:900;font-size:22px;line-height:1.15;margin-bottom:6px}
@@ -119,15 +126,16 @@ input[type=range]::-moz-range-thumb{width:16px;height:16px;border-radius:50%;bac
 .btn.ghost{background:rgba(255,255,255,.06);border:1px solid var(--line2);color:var(--ink)}
 .btn.ghost:hover{border-color:var(--line)}
 .btn.cyan{background:linear-gradient(120deg,var(--cyan),#3fa0e2);color:#06161a}
-.btn.magenta{background:linear-gradient(120deg,var(--magenta),#c93f9d);color:#1a0612}
+.btn.magenta{background:linear-gradient(120deg,var(--magenta),var(--crimson));color:#fff0f5}
 .btn:disabled{opacity:.4;pointer-events:none}
 .btnRow{display:flex;gap:10px}.btnRow .btn{flex:1}
+.linkNote{font-size:11px;color:var(--muted);text-align:center;margin-top:8px;word-break:break-all}
 
 #splash{background:rgba(6,9,14,.44);backdrop-filter:none;flex-direction:column;justify-content:space-between;gap:14px;overflow-y:auto}
-#splash .logo{font-family:var(--disp);font-weight:900;font-size:clamp(34px,10vw,72px);line-height:.95;text-align:center;background:linear-gradient(105deg,var(--amber) 10%,var(--magenta) 55%,var(--cyan) 95%);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 6px 30px rgba(255,79,147,.35));animation:logoIn 1s cubic-bezier(.2,.9,.3,1.2)}
+#splash .logo{font-family:var(--disp);font-weight:900;font-size:clamp(34px,10vw,72px);line-height:.95;text-align:center;background:linear-gradient(105deg,var(--amber) 8%,var(--magenta) 52%,var(--cyan) 96%);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 6px 30px rgba(255,79,147,.35));animation:logoIn 1s cubic-bezier(.2,.9,.3,1.2)}
 @keyframes logoIn{from{transform:translateY(-24px);opacity:0}}
 #splash .tag{text-align:center;color:var(--muted);font-size:12px;margin-top:8px;letter-spacing:.14em;text-transform:uppercase}
-#splashCard{width:100%;max-width:460px;flex:0 0 auto;background:var(--panel2);border:1px solid var(--line);border-radius:24px;padding:18px}
+#splashCard{width:100%;max-width:470px;flex:0 0 auto;background:var(--panel2);border:1px solid var(--line);border-radius:24px;padding:18px}
 #splashStatus{text-align:center;font-size:12px;color:var(--muted);margin-bottom:8px}
 .howto{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:12px;font-size:11px;color:var(--muted)}
 .howto div{background:rgba(255,255,255,.05);border-radius:10px;padding:7px 9px;line-height:1.35}
@@ -146,7 +154,7 @@ input[type=range]::-moz-range-thumb{width:16px;height:16px;border-radius:50%;bac
 .chTitle{font-family:var(--disp);font-weight:700;font-size:13px;color:var(--cyan);letter-spacing:.05em}
 .chVerse{font-size:11px;font-style:italic;color:var(--muted);line-height:1.5;margin:6px 0 8px;white-space:pre-line}
 .lvlGrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.lvlCard{position:relative;text-align:left;background:rgba(255,255,255,.05);border:1px solid var(--line2);border-radius:16px;padding:12px;min-height:98px;transition:transform .12s,border-color .2s;color:var(--ink)}
+.lvlCard{position:relative;text-align:left;background:rgba(255,255,255,.05);border:1px solid var(--line2);border-radius:16px;padding:12px;min-height:100px;transition:transform .12s,border-color .2s;color:var(--ink)}
 .lvlCard:hover{border-color:var(--line)}
 .lvlCard:active{transform:scale(.96)}
 .lvlCard.locked{opacity:.42;filter:grayscale(.7)}
@@ -178,7 +186,7 @@ input[type=range]::-moz-range-thumb{width:16px;height:16px;border-radius:50%;bac
 #fail .cardTitle{color:var(--magenta)}
 .credits{font-size:11px;color:var(--muted);text-align:center;margin-top:14px;line-height:1.5}
 
-#toasts{position:fixed;top:calc(98px + var(--safeT));left:50%;transform:translateX(-50%);z-index:9;display:flex;flex-direction:column;gap:6px;align-items:center;pointer-events:none;width:max-content;max-width:90vw}
+#toasts{position:fixed;top:calc(100px + var(--safeT));left:50%;transform:translateX(-50%);z-index:9;display:flex;flex-direction:column;gap:6px;align-items:center;pointer-events:none;width:max-content;max-width:90vw}
 .toast{background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:9px 16px;font-size:12px;font-weight:600;color:var(--ink);box-shadow:0 8px 30px rgba(0,0,0,.5);animation:toastIn .3s cubic-bezier(.2,.9,.3,1.3);max-width:90vw;text-align:center;line-height:1.4}
 .toast.quote{font-style:italic;color:var(--amber)}
 .toast.bye{opacity:0;transform:translateY(-8px);transition:.4s}
@@ -189,22 +197,24 @@ input[type=range]::-moz-range-thumb{width:16px;height:16px;border-radius:50%;bac
 noscript{position:fixed;inset:0;z-index:99;background:var(--bg0);color:var(--ink);display:flex;align-items:center;justify-content:center;font-family:var(--body);padding:24px;text-align:center}
 
 @media (min-width:900px){#hudTitle{font-size:15px}}
-@media (max-height:660px){
-  .srow{height:29px}
+@media (max-height:700px){
+  .srow{height:28px}
   #dock{padding:9px 12px}
+  #gestureSeg button{min-height:31px}
   #actions{margin-top:7px}
-  .actBtn{min-height:38px}
+  .actBtn{min-height:36px}
   #splash .logo{font-size:clamp(28px,8vw,48px)}
   .howto{display:none}
 }
-@media (max-height:520px){
-  .srow{height:26px}
+@media (max-height:540px){
+  .srow{height:25px}
   .srow label{font-size:11px}
   #hudVerse{display:none}
   #stats{top:calc(58px + var(--safeT))}
   #dock{padding:7px 10px}
-  .actBtn{min-height:34px;font-size:12px}
-  #holdWrap svg{width:48px;height:48px}
+  .actBtn{min-height:33px;font-size:11px}
+  #holdWrap svg{width:46px;height:46px}
+  #gestureSeg button{min-height:28px;font-size:11px}
 }
 @media (prefers-reduced-motion:reduce){#bg::before,#bg::after{animation:none}}
 </style>
@@ -225,8 +235,9 @@ noscript{position:fixed;inset:0;z-index:99;background:var(--bg0);color:var(--ink
   <div class="stat" id="timeChip">⏱ 0:00</div>
   <div class="stat" id="scoreChip">★ 0</div>
   <div class="stat" id="diffChip">Норм</div>
+  <div class="stat lock" id="lockChip" hidden>🔒 камера</div>
 </div>
-<div id="hint">☝️ тяни туфлю · ✌️ два пальца — скрутка · 🌌 фон — камера</div>
+<div id="hint">☝️ тяни туфлю · ✌️ два пальца — только камера · 🔒 закрепляет вид</div>
 
 <div id="bottom">
   <div id="holdWrap">
@@ -239,6 +250,10 @@ noscript{position:fixed;inset:0;z-index:99;background:var(--bg0);color:var(--ink
   </div>
   <div id="chips"></div>
   <div id="dock">
+    <div id="gestureRow">
+      <div id="gestureSeg"></div>
+      <button id="lockBtn" aria-label="Закрепить камеру" aria-pressed="false">🔓</button>
+    </div>
     <div id="sliders"></div>
     <div id="actions">
       <button class="actBtn" id="resetBtn">↩ Разогнуть</button>
@@ -266,10 +281,10 @@ noscript{position:fixed;inset:0;z-index:99;background:var(--bg0);color:var(--ink
     <div class="seg" id="splashDiff"></div>
     <div class="segNote">Во время задания сложность не меняется.</div>
     <div class="howto">
-      <div>☝️ Тяни туфлю — гнётся и скручивается</div>
-      <div>✌️ Два пальца — штопор и зум</div>
-      <div>🌌 Тяни фон — камера вокруг</div>
-      <div>👆👆 Двойной тап — шлёп туфлю</div>
+      <div>☝️ Тяни туфлю — гнётся по выбранному режиму</div>
+      <div>✌️ Два пальца — только зум и поворот камеры</div>
+      <div>🔒 Закрепи камеру, чтобы вид не сбивался</div>
+      <div>🎚 Пять ползунков — точная доводка позы</div>
     </div>
   </div>
 </div>
@@ -277,7 +292,7 @@ noscript{position:fixed;inset:0;z-index:99;background:var(--bg0);color:var(--ink
 <div class="overlay" id="levels">
   <div class="card rel">
     <button class="closeX" id="levelsClose">✕</button>
-    <div class="lvlHead"><div class="cardTitle">Задания</div><div class="totals" id="totals">★ 0/30 · 0</div></div>
+    <div class="lvlHead"><div class="cardTitle">Задания</div><div class="totals" id="totals">★ 0/60 · 0</div></div>
     <div class="cardSub">Согни свою туфлю точно как золотой эталон и удержи позу.</div>
     <div class="segLabel">Сложность следующего запуска</div>
     <div class="seg" id="diffSeg"></div>
@@ -286,6 +301,7 @@ noscript{position:fixed;inset:0;z-index:99;background:var(--bg0);color:var(--ink
     <div id="chapters"></div>
     <div class="segLabel">Достижения</div>
     <div id="achRow"></div>
+    <button class="btn magenta" id="lvShare">📣 Позвать друзей</button>
     <button id="wipeBtn">Стереть весь прогресс</button>
   </div>
 </div>
@@ -307,6 +323,7 @@ noscript{position:fixed;inset:0;z-index:99;background:var(--bg0);color:var(--ink
       <button class="btn ghost" id="retryBtn">↻ Ещё раз</button>
       <button class="btn magenta" id="bragBtn">📣 В чат</button>
     </div>
+    <div class="linkNote">Друзья откроют игру по ссылке t.me/Gnutufli_bot/Game</div>
   </div>
 </div>
 
@@ -338,7 +355,8 @@ noscript{position:fixed;inset:0;z-index:99;background:var(--bg0);color:var(--ink
       <button class="btn ghost" id="pSound">🔊 Звук</button>
       <button class="btn ghost" id="pFull">⛶ Полный экран</button>
     </div>
-    <div class="credits">По мотивам великих стихов про туфли.<br/>Килограмм свиных копыт · два ботинка · собака.</div>
+    <button class="btn magenta" id="pShare">📣 Позвать друзей</button>
+    <div class="credits">По мотивам великих стихов про туфли.<br/>Стельки золотые · ковры севера · гороховый суп.</div>
   </div>
 </div>
 
@@ -388,6 +406,8 @@ window.__tuflaBooted = false;
 /* ============================================================
    ГНУ ТУФЛЮ · 3D · Telegram Mini App
    ============================================================ */
+var GAME_URL = 'https://t.me/Gnutufli_bot/Game';
+
 function $(id) { return document.getElementById(id); }
 function clamp(v, a, b) { return Math.min(b, Math.max(a, v)); }
 function lerp(a, b, t) { return a + (b - a) * t; }
@@ -465,18 +485,22 @@ function hap(kind) {
 }
 
 /* ---------- сохранение ---------- */
-var SAVE_KEY = 'tufla3d_v3';
-var save = { sound: true, diff: 'normal', stars: [0,0,0,0,0,0,0,0,0,0], best: [0,0,0,0,0,0,0,0,0,0], unlocked: 1, ach: {} };
+var LEVEL_COUNT = 20;
+var SAVE_KEY = 'tufla3d_v5';
+function zeroArr() { var a = []; for (var i = 0; i < LEVEL_COUNT; i++) a.push(0); return a; }
+var save = { sound: true, diff: 'normal', stars: zeroArr(), best: zeroArr(), unlocked: 1, ach: {}, gesture: 'bend', camLock: false };
 try {
-  var raw = localStorage.getItem(SAVE_KEY) || localStorage.getItem('tufla3d_v2') || localStorage.getItem('tufla3d_v1');
+  var raw = localStorage.getItem(SAVE_KEY) || localStorage.getItem('tufla3d_v4') || localStorage.getItem('tufla3d_v3');
   var parsed = raw ? JSON.parse(raw) : null;
-  if (parsed && parsed.stars && parsed.stars.length === 10) {
+  if (parsed && parsed.stars && parsed.stars.length) {
     save.sound = parsed.sound !== false;
     save.diff = parsed.diff || 'normal';
-    save.stars = parsed.stars.slice(0, 10);
-    save.best = (parsed.best && parsed.best.length === 10) ? parsed.best.slice(0, 10) : save.best;
-    save.unlocked = clamp(parsed.unlocked || 1, 1, 10);
+    for (var si = 0; si < Math.min(LEVEL_COUNT, parsed.stars.length); si++) save.stars[si] = parsed.stars[si] || 0;
+    if (parsed.best) for (var bi = 0; bi < Math.min(LEVEL_COUNT, parsed.best.length); bi++) save.best[bi] = parsed.best[bi] || 0;
+    save.unlocked = clamp(parsed.unlocked || 1, 1, LEVEL_COUNT);
     save.ach = parsed.ach || {};
+    save.gesture = parsed.gesture || 'bend';
+    save.camLock = !!parsed.camLock;
   }
 } catch (e) {}
 function persist() { try { localStorage.setItem(SAVE_KEY, JSON.stringify(save)); } catch (e) {} }
@@ -513,7 +537,7 @@ var Sfx = {
     var b = c.createBuffer(1, c.sampleRate * 2, c.sampleRate), d = b.getChannelData(0), l = 0;
     for (var i = 0; i < d.length; i++) { l = (l + 0.02 * (Math.random() * 2 - 1)) / 1.02; d[i] = l * 3.5; }
     var src = c.createBufferSource(); src.buffer = b; src.loop = true;
-    var lp = c.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 240;
+    var lp = c.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 230;
     var g = c.createGain(); g.gain.value = 0.05;
     src.connect(lp); lp.connect(g); g.connect(this.master); src.start();
     var o = c.createOscillator(); o.frequency.value = 55;
@@ -541,6 +565,7 @@ var Sfx = {
   },
   tick: function () { this.ensure(); this.tone(1400, 900, 0.05, 'square', 0.05); },
   lock: function () { this.ensure(); this.tone(880, 880, 0.12, 'triangle', 0.14); this.tone(1760, 1760, 0.1, 'sine', 0.06, 0.02); },
+  clack: function () { this.ensure(); this.tone(320, 180, 0.09, 'square', 0.09); },
   creak: function (i) {
     if (!this.ctx) return;
     var now = performance.now();
@@ -604,24 +629,43 @@ var PARAMS = [
   { key: 'arc',    name: 'Дуга',    icon: '⌒', min: -160, max: 160, unit: '°', c: '#a78bfa' },
   { key: 'squish', name: 'Сплющ',   icon: '▬', min: 0,    max: 100, unit: '%', c: '#5ce087' }
 ];
+var GESTURES = [
+  { key: 'bend',   icon: '↕', name: 'Гнуть',   hint: 'Жест: вверх-вниз — изгиб, влево-вправо — вбок' },
+  { key: 'twist',  icon: '⟳', name: 'Крутить', hint: 'Жест: влево-вправо — скрутка, вверх-вниз — дуга' },
+  { key: 'squish', icon: '▬', name: 'Мять',    hint: 'Жест: вниз — сплющить, вверх — отпустить' }
+];
 var CHAPTERS = [
   { t: 'Обида у двери', v: 'Гнул руками я туфлю,\nГоворил, что не люблю…\nТуфли сильно обижались,\nУ двери лежать остались.' },
   { t: 'Взросление', v: 'Я когда-то взрослым стану,\nИз туфли носки достану,\nВверх руками их подкину,\nПоцелую я туфлину.' },
   { t: 'Обувное пати', v: 'Килограмм свиных копыт,\nДва ботинка и собака —\nЭто в обувном\nБыло пати.' },
   { t: 'Одесса', v: 'Туфли ехали в Одессу,\nЧтобы там найти невесту,\nЖить в любви, и не было бы горя,\nИ кредит купить Приору.' },
-  { t: 'Золотой месяц', v: 'Сушу носки, смотрю в окно —\nТам месяц золотой,\nА мне сушить ещё 4 года,\nДуша болит, как хочется надеть.' }
+  { t: 'Золотой месяц', v: 'Сушу носки, смотрю в окно —\nТам месяц золотой,\nА мне сушить ещё 4 года,\nДуша болит, как хочется надеть.' },
+  { t: 'Даша и золотые стельки', v: 'Даша туфли собирает,\nА потом их все сгибает,\nНу а туфли не простые —\nВ туфлях стельки золотые.\nДаша стельки достает\nИ на рынке продает.' },
+  { t: 'Родные навсегда', v: 'Ношу туфли не снимая,\nИ хоть носки в них завоняли,\nЯ не сниму их никогда —\nОни родные навсегда.' },
+  { t: 'Стоял я неровно', v: 'Я туфли видел недавно,\nЖаль, что стояли много.\nСогнул бы я их не робко,\nЖаль, что стоял я не ровно.' },
+  { t: 'Багряное покрывало', v: 'Привет ворам, привет букашкам,\nЯ просыпаюсь на багряном\nПокрывале ковров севера.\nЯ чищу зубы крестовой отверткой\nИ ем я суп гороховый со свиньями.\nЛюблю я запах магнитолы,\nТа, что стоит в моей газели.\nЛюблю мечтать, люблю писать\nИ мёдом волосы ласкать.' }
 ];
 var LEVELS = [
-  { ch: 0, name: 'Первое сгибание',    t: { bend: 60 },                             par: 12, fl: 'Потяни носок вверх. Туфля пока терпит.' },
-  { ch: 0, name: 'Не люблю',           t: { bend: -70, side: 30 },                  par: 18, fl: 'Вниз и вбок. Скажи, что не любишь. Тихо.' },
-  { ch: 1, name: 'Носки наружу',       t: { bend: 110, squish: 35 },                par: 20, fl: 'Достань носки. Подкинь. Поцелуй туфлину.' },
-  { ch: 1, name: 'Поцелуй туфлину',    t: { arc: 80, bend: 40 },                    par: 22, fl: 'Всей дугой. С нежностью.' },
-  { ch: 2, name: 'Танцующий ботинок',  t: { twist: 90, side: -40 },                 par: 25, fl: 'Два ботинка и собака уже танцуют.' },
-  { ch: 2, name: 'Свиные копыта',      t: { twist: -120, bend: 90 },                par: 28, fl: 'Килограмм копыт аплодирует.' },
-  { ch: 3, name: 'Дорога в Одессу',    t: { side: 90, arc: -60 },                   par: 30, fl: 'Туфли ехали в Одессу. Рули туфлей.' },
-  { ch: 3, name: 'Невеста',            t: { bend: 150, twist: 60 },                 par: 32, fl: 'Согни букет. Невеста-туфля ждёт.' },
-  { ch: 4, name: 'Четыре года',        t: { squish: 70, twist: 180 },               par: 35, fl: 'Суши носки. Месяц золотой смотрит.' },
-  { ch: 4, name: 'Кредитная Приора',   t: { bend: -170, twist: -150, side: 80, squish: 40 }, par: 45, fl: 'Финальный претцель. За Приору. В кредит.' }
+  { ch: 0, name: 'Первое сгибание',   t: { bend: 60 },  par: 12, fl: 'Потяни носок вверх. Туфля пока терпит.' },
+  { ch: 0, name: 'Не люблю',          t: { bend: -70, side: 30 }, par: 18, fl: 'Вниз и вбок. Скажи, что не любишь. Тихо.' },
+  { ch: 1, name: 'Носки наружу',      t: { bend: 110, squish: 35 }, par: 20, fl: 'Достань носки. Подкинь. Поцелуй туфлину.' },
+  { ch: 1, name: 'Поцелуй туфлину',   t: { arc: 80, bend: 40 }, par: 22, fl: 'Всей дугой. С нежностью.' },
+  { ch: 2, name: 'Танцующий ботинок', t: { twist: 90, side: -40 }, par: 25, fl: 'Два ботинка и собака уже танцуют.' },
+  { ch: 2, name: 'Свиные копыта',     t: { twist: -120, bend: 90 }, par: 28, fl: 'Килограмм копыт аплодирует.' },
+  { ch: 3, name: 'Дорога в Одессу',   t: { side: 90, arc: -60 }, par: 30, fl: 'Туфли ехали в Одессу. Рули туфлей.' },
+  { ch: 3, name: 'Невеста',           t: { bend: 150, twist: 60 }, par: 32, fl: 'Согни букет. Невеста-туфля ждёт.' },
+  { ch: 4, name: 'Четыре года',       t: { squish: 70, twist: 180 }, par: 35, fl: 'Суши носки. Месяц золотой смотрит.' },
+  { ch: 4, name: 'Кредитная Приора',  t: { bend: -170, twist: -150, side: 80, squish: 40 }, par: 45, fl: 'Претцель за Приору. В кредит.' },
+  { ch: 5, name: 'Даша собирает',     t: { side: 60, arc: 40 }, par: 26, fl: 'Даша собирает туфли в охапку.' },
+  { ch: 5, name: 'Стельки золотые',   t: { bend: 120, squish: 55 }, par: 30, fl: 'Отогни носок — покажи золотую стельку.' },
+  { ch: 5, name: 'На рынок',          t: { twist: 100, side: -70, squish: 25 }, par: 34, fl: 'Стельки достаны. Пора на рынок.' },
+  { ch: 6, name: 'Не снимая',         t: { arc: 120, bend: 40 }, par: 32, fl: 'Ношу туфли не снимая. Дугой навстречу судьбе.' },
+  { ch: 6, name: 'Носки завоняли',    t: { squish: 85, twist: 60 }, par: 34, fl: 'Они родные навсегда. Даже так.' },
+  { ch: 7, name: 'Согнул бы не робко',t: { bend: -150, side: 60 }, par: 36, fl: 'Согнул бы я их не робко. Вот сейчас.' },
+  { ch: 7, name: 'Стоял неровно',     t: { side: 120, arc: -90, twist: 40 }, par: 38, fl: 'Жаль, что стоял я не ровно.' },
+  { ch: 8, name: 'Привет ворам',      t: { twist: -170, bend: 100 }, par: 40, fl: 'Привет ворам, привет букашкам.' },
+  { ch: 8, name: 'Крестовая отвёртка',t: { twist: 180, side: -110, squish: 60 }, par: 44, fl: 'Чищу зубы крестовой отвёрткой.' },
+  { ch: 8, name: 'Гороховый суп',     t: { bend: -175, twist: 165, side: 100, arc: -60, squish: 75 }, par: 55, fl: 'Финал. Суп гороховый, ковры севера, мёд на волосах.' }
 ];
 var DIFFS = {
   easy:   { n: 'Лёгко',   deg: 18, sq: 14, off: 35, mult: 1 },
@@ -633,6 +677,8 @@ var ACHS = [
   { id: 'shtopor', e: '🌀', n: 'Штопор', d: 'Скрутка ±170°', test: function (p) { return Math.abs(p.twist) >= 170; } },
   { id: 'blin', e: '🥞', n: 'Блин', d: 'Сплющить на 95%', test: function (p) { return p.squish >= 95; } },
   { id: 'banan', e: '🍌', n: 'Банан', d: 'Вбок ±125°', test: function (p) { return Math.abs(p.side) >= 125; } },
+  { id: 'stelka', e: '🥇', n: 'Золотая стелька', d: 'Изгиб ≥110° и сплющ ≥50%', test: function (p) { return p.bend >= 110 && p.squish >= 50; } },
+  { id: 'gazel', e: '🚐', n: 'Газель', d: 'Скрутка ≥170° и вбок ≥100°', test: function (p) { return Math.abs(p.twist) >= 170 && Math.abs(p.side) >= 100; } },
   { id: 'pretzel', e: '🥨', n: 'Претцель', d: '3 параметра ≥120°', test: function (p) {
       var ks = ['bend', 'twist', 'side', 'arc'], n = 0;
       for (var i = 0; i < ks.length; i++) if (Math.abs(p[ks[i]]) >= 120) n++;
@@ -645,17 +691,26 @@ var QUIPS = [
   'Это в обувном было пати. Копыта в шоке.',
   'Туфли ехали в Одессу, но свернули не туда.',
   'Там месяц золотой… а туфля золотая от обиды.',
-  'Душа болит, как хочется надеть.',
-  'Поцелую я туфлину. Потом.',
-  'Жить в любви, и не было бы горя. И кредит купить Приору.',
-  'Туфля: «Я не для этого в Одессу ехала!»',
-  'Собака одобряет. Ботинки — нет.'
+  'Даша стельки достает и на рынке продает.',
+  'В туфлях стельки золотые. Туфля не простая.',
+  'Ношу туфли не снимая. Они родные навсегда.',
+  'Хоть носки в них завоняли — я не сниму их никогда.',
+  'Согнул бы я их не робко. Жаль, что стоял не ровно.',
+  'Привет ворам, привет букашкам.',
+  'Чищу зубы крестовой отверткой.',
+  'Ем я суп гороховый со свиньями.',
+  'Люблю я запах магнитолы, та, что стоит в моей газели.',
+  'Люблю мечтать, люблю писать и мёдом волосы ласкать.',
+  'На багряном покрывале ковров севера.'
 ];
 
 /* ---------- состояние ---------- */
 var state = 'splash', overlay = 'splash', curLevel = 0;
 var diff = has(DIFFS, save.diff) ? save.diff : 'normal';
 var runDiff = diff;
+var gestureMode = 'bend';
+for (var gi = 0; gi < GESTURES.length; gi++) if (GESTURES[gi].key === save.gesture) gestureMode = save.gesture;
+var camLocked = !!save.camLock;
 var playTime = 0, hold = 0, countdown = 0, lastPrec = 0;
 var interacted = false, quipCd = 0, quipLatch = false, achCd = 0;
 var starTimers = [], pulseTimer = null, introTimer = null, wipeArm = false;
@@ -715,7 +770,38 @@ function fmt(s) {
   return m + ':' + (sec < 10 ? '0' : '') + sec;
 }
 
-/* ---------- слайдеры и чипы ---------- */
+/* ---------- поделиться: ссылка на игру в Telegram ---------- */
+function shareGame(text) {
+  var msg = text || '🥿 ГНУ ТУФЛЮ — 3D симулятор сгибания туфли. Согни свою!';
+  try {
+    if (tg && typeof tg.openTelegramLink === 'function') {
+      tg.openTelegramLink('https://t.me/share/url?url=' + encodeURIComponent(GAME_URL) + '&text=' + encodeURIComponent(msg));
+      return;
+    }
+  } catch (e) {}
+  try {
+    if (navigator.share) {
+      navigator.share({ title: 'ГНУ ТУФЛЮ', text: msg, url: GAME_URL }).catch(function () {});
+      return;
+    }
+  } catch (e) {}
+  try {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(msg + ' ' + GAME_URL).then(function () {
+        toast('Ссылка скопирована. Зови друзей!');
+      }).catch(function () { toast(GAME_URL); });
+      return;
+    }
+  } catch (e) {}
+  toast(GAME_URL);
+}
+function inviteText() {
+  var tot = 0;
+  for (var i = 0; i < LEVEL_COUNT; i++) tot += save.stars[i];
+  return '🥿 ГНУ ТУФЛЮ — я уже согнул туфли на ' + tot + '★ из ' + (LEVEL_COUNT * 3) + '. Слабо согнуть свою?';
+}
+
+/* ---------- ползунки и чипы ---------- */
 var sliderRefs = {}, chipRefs = {};
 PARAMS.forEach(function (p) {
   var row = document.createElement('div');
@@ -764,6 +850,48 @@ function syncAllSliders() {
 function markInteract() { if (!interacted) { interacted = true; $('hint').classList.add('gone'); } }
 syncAllSliders();
 
+/* ---------- режим жеста ---------- */
+function buildGestureSeg() {
+  var el = $('gestureSeg');
+  el.innerHTML = '';
+  GESTURES.forEach(function (g) {
+    var b = document.createElement('button');
+    b.setAttribute('data-g', g.key);
+    var i1 = document.createElement('span'); i1.textContent = g.icon;
+    var i2 = document.createElement('span'); i2.textContent = g.name;
+    b.appendChild(i1); b.appendChild(i2);
+    b.onclick = function () {
+      gestureMode = g.key; save.gesture = g.key; persist();
+      Sfx.clack(); hap('light'); syncGestureSeg();
+      toast(g.hint, false, 2600);
+    };
+    el.appendChild(b);
+  });
+  syncGestureSeg();
+}
+function syncGestureSeg() {
+  var bs = $('gestureSeg').children;
+  for (var i = 0; i < bs.length; i++) bs[i].classList.toggle('on', bs[i].getAttribute('data-g') === gestureMode);
+}
+buildGestureSeg();
+
+/* ---------- замок камеры ---------- */
+function syncLock() {
+  var b = $('lockBtn');
+  b.textContent = camLocked ? '🔒' : '🔓';
+  b.classList.toggle('on', camLocked);
+  b.setAttribute('aria-pressed', String(camLocked));
+  b.setAttribute('aria-label', camLocked ? 'Камера закреплена' : 'Закрепить камеру');
+  $('lockChip').hidden = !camLocked;
+}
+$('lockBtn').onclick = function () {
+  camLocked = !camLocked; save.camLock = camLocked; persist();
+  Sfx.clack(); hap('medium'); syncLock();
+  toast(camLocked ? '🔒 Камера закреплена. Гни спокойно.' : '🔓 Камера свободна. Тяни фон.');
+};
+syncLock();
+
+/* ---------- сложность ---------- */
 function updateDiffUI() {
   var btns = document.querySelectorAll('.seg button');
   for (var i = 0; i < btns.length; i++) btns[i].classList.toggle('on', btns[i].getAttribute('data-diff') === diff);
@@ -803,8 +931,8 @@ $('pFull').onclick = function () {
    3D
    ============================================================ */
 var Q = MOBILE
-  ? { upS: 84, upR: 32, soleS: 58, soleR: 20, heelS: 18, heelR: 16, rimR: 7, tubeS: 0.62, tubeR: 5, eyeR: 6, eyeT: 10, dust: 110, conf: 220, px: 1.6, shadow: false, cones: 1 }
-  : { upS: 120, upR: 48, soleS: 90, soleR: 28, heelS: 26, heelR: 24, rimR: 9, tubeS: 1, tubeR: 6, eyeR: 8, eyeT: 14, dust: 220, conf: 360, px: 2, shadow: true, cones: 2 };
+  ? { upS: 88, upR: 34, soleS: 58, soleR: 20, heelS: 18, heelR: 16, rimR: 7, tubeS: 0.62, tubeR: 5, eyeR: 6, eyeT: 10, footS: 30, footR: 8, dust: 110, conf: 220, px: 1.6, shadow: false, cones: 1 }
+  : { upS: 124, upR: 50, soleS: 90, soleR: 28, heelS: 26, heelR: 24, rimR: 9, tubeS: 1, tubeR: 6, eyeR: 8, eyeT: 14, footS: 44, footR: 10, dust: 220, conf: 360, px: 2, shadow: true, cones: 2 };
 function seg(n) { return Math.max(8, Math.round(n * Q.tubeS)); }
 
 var THREE = null, renderer = null, scene = null, camera = null;
@@ -812,9 +940,10 @@ var playerGroup, ghostGroup, playerBend, ghostBend, playerMesh, ghostMesh;
 var playerPed, ghostPed, playerLabel, ghostLabel, ghostLight = null, dust, confetti, moon, moonGlow, cone1, cone2 = null, spot;
 var playerBlob, ghostBlob;
 var playerBaseY = 0.42, ghostBaseY = 0.42, ghostScale = 1, playerLift = 0, ghostLift = 0;
-var baseDist = 8, zoomFactor = 1, dockH = 240, qualityTier = 0, frameAvg = 0, frameCnt = 0, booted = false, layoutPending = false;
+var baseDist = 8, zoomFactor = 1, dockH = 260, qualityTier = 0, frameAvg = 0, frameCnt = 0, booted = false, layoutPending = false;
 var cam = { az: 0.55, pol: 1.12, d: 8, gAz: 0.55, gPol: 1.12, gD: 8, target: null, shake: 0 };
 var SHOE_L = 3.0, Z0 = -1.5, NST = 97;
+var OPEN_TC = 0.1975, OPEN_DT = 0.1375, OPEN_W = 0.70;
 
 function layoutSoon() {
   if (layoutPending) return;
@@ -830,34 +959,57 @@ function keysAt(keys, t) {
   return keys[keys.length - 1][1];
 }
 var WK = [[0,0.02],[0.05,0.30],[0.12,0.36],[0.35,0.315],[0.62,0.42],[0.78,0.40],[0.90,0.30],[0.97,0.16],[1,0.015]];
-var TK = [[0,0.55],[0.04,0.72],[0.10,0.78],[0.20,0.74],[0.30,0.66],[0.40,0.62],[0.50,0.60],[0.62,0.52],[0.75,0.40],[0.85,0.30],[0.93,0.22],[1,0.14]];
+var TK = [[0,0.55],[0.04,0.72],[0.10,0.78],[0.20,0.74],[0.30,0.68],[0.40,0.63],[0.50,0.60],[0.62,0.52],[0.75,0.40],[0.85,0.30],[0.93,0.22],[1,0.14]];
 var SK = [[0,0.20],[0.15,0.21],[0.30,0.16],[0.45,0.05],[0.60,0.03],[0.85,0.03],[0.95,0.07],[1,0.10]];
 function widthAt(t) { return keysAt(WK, t); }
 function topAt(t) { return keysAt(TK, t); }
 function soleAt(t) { return keysAt(SK, t); }
+function cavY(t) { return soleAt(t) + 0.075; }
 var SPINE0 = (soleAt(0) + topAt(0)) / 2;
 function gFlex(t) { return smoother((t - 0.30) / 0.62); }
 function gSide(t) { return smoother((t - 0.15) / 0.80); }
-
+function instepRaise(t) {
+  if (t <= 0.33 || t >= 0.62) return 0;
+  return 0.034 * Math.sin(Math.PI * (t - 0.33) / 0.29);
+}
+function instepTop(t) { return topAt(t) + instepRaise(t); }
+function outerTopY(t, x) {
+  var w = Math.max(0.001, widthAt(t)), sb = soleAt(t), top = topAt(t);
+  var mid = (sb + top) / 2, hh = (top - sb) / 2;
+  var cx = clamp(Math.abs(x) / w, 0, 1);
+  var c = Math.pow(cx, 1 / 0.95);
+  var s = Math.sqrt(Math.max(0, 1 - c * c));
+  return mid + hh * Math.pow(s, 0.92);
+}
+function lipPoint(u) {
+  var ang = u * Math.PI * 2;
+  var t = clamp(OPEN_TC + OPEN_DT * Math.cos(ang), 0.02, 0.98);
+  var x = widthAt(t) * OPEN_W * Math.sin(ang);
+  return { x: x, y: outerTopY(t, x), z: Z0 + SHOE_L * t, t: t };
+}
 function upperPoint(t, phi) {
   var w = widthAt(t), sb = soleAt(t), top = topAt(t);
   var cx = Math.cos(phi), sy = Math.sin(phi);
   var mid = (sb + top) / 2, hh = (top - sb) / 2;
   var x = w * Math.sign(cx) * Math.pow(Math.abs(cx), sy >= 0 ? 0.95 : 0.6);
   var y = mid + hh * Math.sign(sy) * Math.pow(Math.abs(sy), sy >= 0 ? 0.92 : 0.55);
-  var col = 1;
-  var bw = sstep(0.07, 0.13, t) * (1 - sstep(0.36, 0.44, t)) * sstep(0.35, 0.8, sy);
-  if (bw > 0) { y = lerp(y, sb + 0.26, bw); col = lerp(1, 0.2, bw); }
-  if (t > 0.30 && t < 0.52 && Math.abs(cx) < 0.55 && sy > 0.5) {
-    var tb = Math.sin((t - 0.30) / 0.22 * Math.PI) * (1 - Math.abs(cx) / 0.55) * sstep(0.5, 0.9, sy);
-    y += 0.05 * tb * (1 - bw);
+  var tt = (t - OPEN_TC) / OPEN_DT;
+  var xx = x / (Math.max(0.02, w) * OPEN_W);
+  var d = Math.sqrt(tt * tt + xx * xx);
+  var open = (1 - sstep(0.70, 1.0, d)) * sstep(0.12, 0.45, sy);
+  if (open > 0) y = lerp(y, cavY(t), open);
+  if (t > 0.33 && t < 0.62 && Math.abs(cx) < 0.55 && sy > 0.45) {
+    var tb = (1 - Math.abs(cx) / 0.55) * sstep(0.45, 0.85, sy);
+    y += instepRaise(t) * tb * (1 - open);
   }
+  var col = 1;
   if (t > 0.78) col *= 0.92;
   if (t < 0.12) col *= 0.95;
-  return { x: x, y: y, z: Z0 + SHOE_L * t, col: col };
+  col *= lerp(1, 0.62, open);
+  return { x: x, y: y, z: Z0 + SHOE_L * t, col: col, open: open };
 }
 function loft(stations, radial, t0, t1, fn) {
-  var pos = [], uv = [], col = [], idx = [];
+  var pos = [], uv = [], col = [], idx = [], opens = [];
   var i, j;
   for (i = 0; i <= stations; i++) {
     var t = t0 + (t1 - t0) * i / stations;
@@ -867,6 +1019,7 @@ function loft(stations, radial, t0, t1, fn) {
       uv.push(t, j / radial);
       var c = (p.col === undefined) ? 1 : p.col;
       col.push(c, c * 0.985, c * 0.955);
+      opens.push(p.open || 0);
     }
   }
   for (i = 0; i < stations; i++) {
@@ -884,7 +1037,72 @@ function loft(stations, radial, t0, t1, fn) {
   g.setAttribute('color', new THREE.Float32BufferAttribute(col, 3));
   g.setIndex(idx);
   g.computeVertexNormals();
+  g._open = new Float32Array(opens);
   return g;
+}
+function patch(rows, cols, fn) {
+  var pos = [], uv = [], col = [], idx = [];
+  var i, j;
+  for (i = 0; i <= rows; i++) {
+    for (j = 0; j <= cols; j++) {
+      var p = fn(i / rows, j / cols);
+      pos.push(p.x, p.y, p.z);
+      uv.push(i / rows, j / cols);
+      var c = (p.col === undefined) ? 1 : p.col;
+      col.push(c, c * 0.985, c * 0.955);
+    }
+  }
+  for (i = 0; i < rows; i++) {
+    for (j = 0; j < cols; j++) {
+      var a = i * (cols + 1) + j, b = a + 1, c2 = a + cols + 1, d = c2 + 1;
+      idx.push(a, b, d, a, d, c2);
+    }
+  }
+  var g = new THREE.BufferGeometry();
+  g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+  g.setAttribute('uv', new THREE.Float32BufferAttribute(uv, 2));
+  g.setAttribute('color', new THREE.Float32BufferAttribute(col, 3));
+  g.setIndex(idx);
+  g.computeVertexNormals();
+  return g;
+}
+function splitLoft(geo, thresh) {
+  var idx = geo.index.array;
+  var pos = geo.attributes.position.array, nor = geo.attributes.normal.array;
+  var uv = geo.attributes.uv.array, col = geo.attributes.color.array;
+  var open = geo._open;
+  var total = pos.length / 3;
+  function build(keep) {
+    var map = new Int32Array(total);
+    var i;
+    for (i = 0; i < total; i++) map[i] = -1;
+    var np = [], nn = [], nu = [], nc = [], ni = [], count = 0;
+    for (var t = 0; t < idx.length; t += 3) {
+      var a = idx[t], b = idx[t + 1], c = idx[t + 2];
+      var inside = ((open[a] + open[b] + open[c]) / 3) > thresh;
+      if (inside !== keep) continue;
+      var tri = [a, b, c];
+      for (var k = 0; k < 3; k++) {
+        var v = tri[k];
+        if (map[v] < 0) {
+          map[v] = count++;
+          np.push(pos[v * 3], pos[v * 3 + 1], pos[v * 3 + 2]);
+          nn.push(nor[v * 3], nor[v * 3 + 1], nor[v * 3 + 2]);
+          nu.push(uv[v * 2], uv[v * 2 + 1]);
+          nc.push(col[v * 3], col[v * 3 + 1], col[v * 3 + 2]);
+        }
+        ni.push(map[v]);
+      }
+    }
+    var g = new THREE.BufferGeometry();
+    g.setAttribute('position', new THREE.Float32BufferAttribute(np, 3));
+    g.setAttribute('normal', new THREE.Float32BufferAttribute(nn, 3));
+    g.setAttribute('uv', new THREE.Float32BufferAttribute(nu, 2));
+    g.setAttribute('color', new THREE.Float32BufferAttribute(nc, 3));
+    g.setIndex(ni);
+    return g;
+  }
+  return { outer: build(false), inner: build(true) };
 }
 function prep(g, r, gg, b) {
   if (r === undefined) { r = 1; gg = 1; b = 1; }
@@ -915,10 +1133,12 @@ function mergeGeos(list, useGroups) {
   for (i = 0; i < list.length; i++) {
     var g = list[i];
     var cnt = g.attributes.position.count;
-    pos.set(g.attributes.position.array, vo * 3);
-    nor.set(g.attributes.normal.array, vo * 3);
-    uv.set(g.attributes.uv.array, vo * 2);
-    col.set(g.attributes.color.array, vo * 3);
+    if (cnt > 0) {
+      pos.set(g.attributes.position.array, vo * 3);
+      nor.set(g.attributes.normal.array, vo * 3);
+      uv.set(g.attributes.uv.array, vo * 2);
+      col.set(g.attributes.color.array, vo * 3);
+    }
     var gi = g.index ? g.index.array : null;
     var ic = gi ? gi.length : cnt;
     for (k = 0; k < ic; k++) idx[io + k] = (gi ? gi[k] : k) + vo;
@@ -935,19 +1155,48 @@ function mergeGeos(list, useGroups) {
   return out;
 }
 
+function footTexture() {
+  var c = document.createElement('canvas'); c.width = 512; c.height = 128;
+  var x = c.getContext('2d');
+  var g = x.createLinearGradient(0, 0, 0, 128);
+  g.addColorStop(0, '#2a1a10'); g.addColorStop(0.5, '#3a2515'); g.addColorStop(1, '#241610');
+  x.fillStyle = g; x.fillRect(0, 0, 512, 128);
+  var i;
+  for (i = 0; i < 1400; i++) {
+    x.fillStyle = 'rgba(255,220,160,' + (Math.random() * 0.05).toFixed(3) + ')';
+    x.fillRect(Math.random() * 512, Math.random() * 128, 2, 2);
+  }
+  x.strokeStyle = 'rgba(214,168,86,.55)'; x.lineWidth = 3;
+  x.strokeRect(10, 10, 492, 108);
+  x.fillStyle = '#e8c274'; x.textAlign = 'center';
+  x.font = '900 40px Unbounded, sans-serif';
+  x.fillText('ГНУ', 104, 58);
+  x.font = '800 17px Manrope, sans-serif';
+  x.fillText('ЗОЛОТАЯ СТЕЛЬКА', 104, 86);
+  x.font = '800 26px Manrope, sans-serif';
+  x.fillStyle = 'rgba(232,194,116,.75)';
+  x.fillText('43', 300, 74);
+  x.fillText('ОДЕССА', 420, 74);
+  var t = new THREE.CanvasTexture(c);
+  t.colorSpace = THREE.SRGBColorSpace;
+  return t;
+}
+
 function buildShoe() {
-  var buckets = { leather: [], sole: [], heel: [], lace: [], metal: [], stitch: [], inner: [] };
-  var i, k;
+  var buckets = { leather: [], lining: [], sole: [], heel: [], lace: [], metal: [], stitch: [], foot: [] };
+  var i, k, p;
 
-  buckets.leather.push(loft(Q.upS, Q.upR, 0, 1, upperPoint));
+  var upper = loft(Q.upS, Q.upR, 0, 1, upperPoint);
+  var parts = splitLoft(upper, 0.30);
+  buckets.leather.push(parts.outer);
+  buckets.lining.push(parts.inner);
 
-  var rimPts = [];
-  var phiR = Math.asin(0.62), phiL = Math.PI - phiR, p;
-  for (k = 0; k <= 14; k++) { p = upperPoint(lerp(0.085, 0.435, k / 14), phiL); rimPts.push(V3(p.x, p.y + 0.015, p.z)); }
-  for (k = 1; k < 6; k++) { p = upperPoint(0.435, lerp(phiL, phiR, k / 6)); rimPts.push(V3(p.x, p.y + 0.015, p.z)); }
-  for (k = 0; k <= 14; k++) { p = upperPoint(lerp(0.435, 0.085, k / 14), phiR); rimPts.push(V3(p.x, p.y + 0.015, p.z)); }
-  for (k = 1; k < 6; k++) { p = upperPoint(0.085, lerp(phiR, phiL, k / 6)); rimPts.push(V3(p.x, p.y + 0.015, p.z)); }
-  buckets.leather.push(prep(tube(rimPts, 0.03, 110, Q.rimR, true), 0.82, 0.82, 0.82));
+  var lipPts = [], lipN = MOBILE ? 48 : 72;
+  for (k = 0; k < lipN; k++) {
+    p = lipPoint(k / lipN);
+    lipPts.push(V3(p.x, p.y + 0.012, p.z));
+  }
+  buckets.leather.push(prep(tube(lipPts, 0.028, 108, Q.rimR, true), 0.84, 0.84, 0.84));
 
   buckets.sole.push(loft(Q.soleS, Q.soleR, 0.005, 0.995, function (t, phi) {
     var w = widthAt(t) * 1.07 + 0.012, sb = soleAt(t), cx = Math.cos(phi), sy = Math.sin(phi);
@@ -962,42 +1211,60 @@ function buildShoe() {
     return { x: w * Math.sign(cx) * Math.pow(Math.abs(cx), 0.3), y: y, z: Z0 + SHOE_L * t, col: band };
   }));
 
+  var foot = patch(Q.footS, Q.footR, function (u, v) {
+    var t = lerp(0.045, 0.94, u);
+    var s = v * 2 - 1;
+    return { x: widthAt(t) * 0.86 * s, y: cavY(t) + 0.004, z: Z0 + SHOE_L * t, col: 1 };
+  });
+  buckets.foot.push(prep(foot));
+
   var eyeL = [], eyeR = [];
   for (i = 0; i < 5; i++) {
-    var tt = 0.345 + i * 0.043;
-    var pairs = [[0.30 * Math.PI, eyeR], [0.70 * Math.PI, eyeL]];
-    for (k = 0; k < pairs.length; k++) {
-      var phi2 = pairs[k][0], arr = pairs[k][1];
-      var up = upperPoint(tt, phi2);
+    var tt = 0.38 + i * 0.05;
+    var sides = [1, -1];
+    for (k = 0; k < 2; k++) {
+      var sgn = sides[k];
+      var ex = widthAt(tt) * 0.62 * sgn;
+      var ey = outerTopY(tt, ex);
       var mid = (soleAt(tt) + topAt(tt)) / 2;
-      var dir = V3(up.x, up.y - mid, 0).normalize();
-      var pos2 = V3(up.x, up.y, up.z).addScaledVector(dir, 0.012);
-      var tor = new THREE.TorusGeometry(0.024, 0.008, Q.eyeR, Q.eyeT);
+      var dir = V3(ex, ey - mid, 0).normalize();
+      var pos2 = V3(ex, ey, Z0 + SHOE_L * tt).addScaledVector(dir, 0.014);
+      var tor = new THREE.TorusGeometry(0.023, 0.008, Q.eyeR, Q.eyeT);
       tor.applyQuaternion(new THREE.Quaternion().setFromUnitVectors(V3(0, 0, 1), dir));
       tor.translate(pos2.x, pos2.y, pos2.z);
       buckets.metal.push(prep(tor));
-      arr.push(pos2.clone().addScaledVector(dir, 0.01));
+      var anchor = pos2.clone().addScaledVector(dir, 0.012);
+      if (sgn > 0) eyeR.push(anchor); else eyeL.push(anchor);
     }
+  }
+  function laceArc(a, b) {
+    var zm = (a.z + b.z) / 2;
+    var tm = clamp((zm - Z0) / SHOE_L, 0.33, 0.62);
+    var m = V3(0, instepTop(tm) + 0.026, zm);
+    return new THREE.TubeGeometry(new THREE.QuadraticBezierCurve3(a, m, b), seg(16), 0.0165, Q.tubeR);
   }
   for (i = 0; i < 4; i++) {
-    var crosses = [[eyeL[i], eyeR[i + 1]], [eyeR[i], eyeL[i + 1]]];
-    for (k = 0; k < crosses.length; k++) {
-      var a2 = crosses[k][0], b2 = crosses[k][1];
-      var m2 = a2.clone().add(b2).multiplyScalar(0.5); m2.y += 0.025;
-      buckets.lace.push(prep(new THREE.TubeGeometry(new THREE.QuadraticBezierCurve3(a2, m2, b2), seg(14), 0.0165, Q.tubeR)));
-    }
+    buckets.lace.push(prep(laceArc(eyeL[i], eyeR[i + 1])));
+    buckets.lace.push(prep(laceArc(eyeR[i], eyeL[i + 1])));
   }
-  var knot = eyeL[4].clone().add(eyeR[4]).multiplyScalar(0.5); knot.y += 0.045;
-  var knotGeo = new THREE.SphereGeometry(0.037, 10, 8);
+  var knot = V3(0, instepTop(0.58) + 0.050, Z0 + SHOE_L * 0.585);
+  buckets.lace.push(prep(laceArc(eyeL[4], knot)));
+  buckets.lace.push(prep(laceArc(eyeR[4], knot)));
+  var knotGeo = new THREE.SphereGeometry(0.034, 10, 8);
   knotGeo.translate(knot.x, knot.y, knot.z);
   buckets.lace.push(prep(knotGeo));
   [-1, 1].forEach(function (s) {
-    var loop = new THREE.TorusGeometry(0.055, 0.014, 6, 12, 4.6);
-    loop.rotateX(Math.PI / 2.3); loop.rotateY(s * 0.9);
-    loop.translate(knot.x + s * 0.075, knot.y + 0.01, knot.z + 0.01);
+    var loop = new THREE.TorusGeometry(0.042, 0.015, 6, 12, 4.4);
+    loop.rotateX(Math.PI / 2.9); loop.rotateY(s * 0.8);
+    loop.translate(knot.x + s * 0.055, knot.y + 0.014, knot.z + 0.004);
     buckets.lace.push(prep(loop));
-    var end = [knot.clone(), V3(knot.x + s * 0.10, knot.y - 0.05, knot.z + 0.12), V3(knot.x + s * 0.13, knot.y - 0.13, knot.z + 0.20)];
-    buckets.lace.push(prep(tube(end, 0.014, 12, Q.tubeR)));
+    var t1 = 0.645, t2 = 0.71;
+    var end = [
+      knot.clone(),
+      V3(s * 0.085, topAt(t1) + 0.040, Z0 + SHOE_L * t1),
+      V3(s * 0.12, topAt(t2) + 0.026, Z0 + SHOE_L * t2)
+    ];
+    buckets.lace.push(prep(tube(end, 0.014, 14, Q.tubeR)));
   });
 
   var seam = [];
@@ -1007,8 +1274,8 @@ function buildShoe() {
     seam.push(V3(sp.x * 1.006, sp.y + 0.004, sp.z));
   }
   buckets.stitch.push(prep(tube(seam, 0.005, 54, 4)));
-  var collar = rimPts.map(function (v) { return V3(v.x * 0.955, v.y - 0.045, v.z); });
-  buckets.stitch.push(prep(tube(collar, 0.0045, 80, 4, true)));
+  var collar = lipPts.map(function (v) { return V3(v.x * 0.95, v.y - 0.042, v.z); });
+  buckets.stitch.push(prep(tube(collar, 0.0045, 84, 4, true)));
   var heelSeam = [];
   for (k = 0; k <= 6; k++) {
     var hy = lerp(soleAt(0.012) + 0.06, topAt(0.012) - 0.06, k / 6);
@@ -1016,22 +1283,9 @@ function buildShoe() {
   }
   buckets.stitch.push(prep(tube(heelSeam, 0.005, 18, 4)));
   var welt = [];
-  for (k = 0; k <= 26; k++) { var t1 = lerp(0.05, 0.95, k / 26); welt.push(V3(widthAt(t1) * 1.07 + 0.014, soleAt(t1) + 0.006, Z0 + SHOE_L * t1)); }
-  for (k = 0; k <= 26; k++) { var t2 = lerp(0.95, 0.05, k / 26); welt.push(V3(-(widthAt(t2) * 1.07 + 0.014), soleAt(t2) + 0.006, Z0 + SHOE_L * t2)); }
+  for (k = 0; k <= 26; k++) { var t1w = lerp(0.05, 0.95, k / 26); welt.push(V3(widthAt(t1w) * 1.07 + 0.014, soleAt(t1w) + 0.006, Z0 + SHOE_L * t1w)); }
+  for (k = 0; k <= 26; k++) { var t2w = lerp(0.95, 0.05, k / 26); welt.push(V3(-(widthAt(t2w) * 1.07 + 0.014), soleAt(t2w) + 0.006, Z0 + SHOE_L * t2w)); }
   buckets.stitch.push(prep(tube(welt, 0.004, 96, 4, true)));
-
-  var cnv = document.createElement('canvas'); cnv.width = 256; cnv.height = 128;
-  var cx2 = cnv.getContext('2d');
-  cx2.fillStyle = '#170d06'; cx2.fillRect(0, 0, 256, 128);
-  cx2.fillStyle = '#c99b4e'; cx2.textAlign = 'center';
-  cx2.font = '900 52px Unbounded, sans-serif'; cx2.fillText('ГНУ', 128, 58);
-  cx2.font = '700 24px Manrope, sans-serif'; cx2.fillText('размер 43 · Одесса', 128, 96);
-  var brandTex = new THREE.CanvasTexture(cnv);
-  brandTex.colorSpace = THREE.SRGBColorSpace;
-  var insole = new THREE.PlaneGeometry(0.42, 0.21);
-  insole.rotateX(-Math.PI / 2);
-  insole.translate(0, soleAt(0.22) + 0.268, Z0 + SHOE_L * 0.22);
-  buckets.inner.push(prep(insole));
 
   var bumpC = document.createElement('canvas'); bumpC.width = 128; bumpC.height = 128;
   var bx = bumpC.getContext('2d');
@@ -1052,6 +1306,17 @@ function buildShoe() {
   var bump = new THREE.CanvasTexture(bumpC);
   bump.wrapS = THREE.RepeatWrapping; bump.wrapT = THREE.RepeatWrapping; bump.repeat.set(3, 3);
 
+  var suedeC = document.createElement('canvas'); suedeC.width = 64; suedeC.height = 64;
+  var sx2 = suedeC.getContext('2d');
+  sx2.fillStyle = '#8a8a8a'; sx2.fillRect(0, 0, 64, 64);
+  for (i = 0; i < 2200; i++) {
+    var v2 = Math.floor(96 + Math.random() * 70);
+    sx2.fillStyle = 'rgb(' + v2 + ',' + v2 + ',' + v2 + ')';
+    sx2.fillRect(Math.random() * 64, Math.random() * 64, 1.6, 1.6);
+  }
+  var suede = new THREE.CanvasTexture(suedeC);
+  suede.wrapS = THREE.RepeatWrapping; suede.wrapT = THREE.RepeatWrapping; suede.repeat.set(6, 6);
+
   var dashC = document.createElement('canvas'); dashC.width = 16; dashC.height = 4;
   var dx = dashC.getContext('2d'); dx.fillStyle = '#ffffff'; dx.fillRect(0, 0, 9, 4);
   var dash = new THREE.CanvasTexture(dashC);
@@ -1059,14 +1324,15 @@ function buildShoe() {
 
   var mats = [
     new THREE.MeshPhysicalMaterial({ color: 0x8a4526, roughness: 0.44, metalness: 0.06, clearcoat: 0.45, clearcoatRoughness: 0.34, bumpMap: bump, bumpScale: 0.014, vertexColors: true, envMapIntensity: 0.8, transparent: false, opacity: 1 }),
+    new THREE.MeshStandardMaterial({ color: 0x6d4a2e, roughness: 0.96, metalness: 0.02, bumpMap: suede, bumpScale: 0.01, vertexColors: true, envMapIntensity: 0.35, side: THREE.DoubleSide, transparent: false, opacity: 1 }),
     new THREE.MeshStandardMaterial({ color: 0x2a1c12, roughness: 0.86, vertexColors: true, envMapIntensity: 0.3, transparent: false, opacity: 1 }),
     new THREE.MeshStandardMaterial({ color: 0x241812, roughness: 0.72, vertexColors: true, envMapIntensity: 0.3, transparent: false, opacity: 1 }),
     new THREE.MeshStandardMaterial({ color: 0x2b1a10, roughness: 0.76, vertexColors: true, envMapIntensity: 0.3, transparent: false, opacity: 1 }),
     new THREE.MeshStandardMaterial({ color: 0xd8a955, roughness: 0.32, metalness: 1, vertexColors: true, envMapIntensity: 1.3, transparent: false, opacity: 1 }),
     new THREE.MeshStandardMaterial({ color: 0xead9ac, roughness: 0.8, alphaMap: dash, alphaTest: 0.4, vertexColors: true, transparent: false, opacity: 1 }),
-    new THREE.MeshBasicMaterial({ map: brandTex })
+    new THREE.MeshStandardMaterial({ map: footTexture(), color: 0xffffff, roughness: 0.55, metalness: 0.3, envMapIntensity: 0.7, side: THREE.DoubleSide, transparent: false, opacity: 1 })
   ];
-  var order = ['leather', 'sole', 'heel', 'lace', 'metal', 'stitch', 'inner'];
+  var order = ['leather', 'lining', 'sole', 'heel', 'lace', 'metal', 'stitch', 'foot'];
   var merged = [];
   for (i = 0; i < order.length; i++) merged.push(mergeGeos(buckets[order[i]], false));
   var geo = mergeGeos(merged, true);
@@ -1261,9 +1527,7 @@ function loadThree() {
     'https://esm.sh/three@0.160.0'
   ];
   var chain = Promise.reject(new Error('нет источников'));
-  urls.forEach(function (u) {
-    chain = chain.catch(function () { return import(u); });
-  });
+  urls.forEach(function (u) { chain = chain.catch(function () { return import(u); }); });
   return chain;
 }
 
@@ -1502,10 +1766,10 @@ function layout() {
   renderer.setSize(w, h, false);
   renderer.domElement.style.width = w + 'px';
   renderer.domElement.style.height = h + 'px';
-  dockH = $('bottom').offsetHeight || 240;
+  dockH = $('bottom').offsetHeight || 260;
   camera.aspect = w / h;
-  camera.setViewOffset(w, h, 0, Math.min(dockH * 0.42, h * 0.16), w, h);
-  $('hint').style.bottom = (dockH + 18) + 'px';
+  camera.setViewOffset(w, h, 0, Math.min(dockH * 0.44, h * 0.17), w, h);
+  $('hint').style.bottom = (dockH + 16) + 'px';
   var portrait = w / h < 0.85, solo = state === 'sandbox';
   function setPed(ped, x, z, top, r) {
     ped.position.set(x, 0, z);
@@ -1576,6 +1840,12 @@ function bindInput() {
     ray.setFromCamera(ndc, camera);
     return ray.intersectObject(playerMesh, false).length > 0;
   }
+  function snapshot() {
+    return {
+      bend0: springs.bend.g, twist0: springs.twist.g, side0: springs.side.g,
+      arc0: springs.arc.g, squish0: springs.squish.g, az0: cam.gAz, pol0: cam.gPol
+    };
+  }
   el.addEventListener('pointerdown', function (e) {
     if (overlay) return;
     Sfx.ensure(); idleT = 0;
@@ -1584,7 +1854,8 @@ function bindInput() {
     pointers.set(e.pointerId, { x: e.clientX, y: e.clientY, sx: e.clientX, sy: e.clientY, on: on });
     if (pointers.size === 1) {
       var now = performance.now();
-      if (on && now - lastTap.t < 300 && Math.sqrt(Math.pow(e.clientX - lastTap.x, 2) + Math.pow(e.clientY - lastTap.y, 2)) < 28) {
+      var near = Math.sqrt(Math.pow(e.clientX - lastTap.x, 2) + Math.pow(e.clientY - lastTap.y, 2));
+      if (on && now - lastTap.t < 300 && near < 28) {
         var prev = springs.squish.g;
         springs.squish.g = 68; Sfx.boing(); hap('medium'); markInteract();
         clearTimeout(pulseTimer);
@@ -1593,14 +1864,16 @@ function bindInput() {
       } else {
         lastTap = { t: now, x: e.clientX, y: e.clientY };
       }
-      gesture = { mode: on ? 'bend' : 'orbit', bend0: springs.bend.g, side0: springs.side.g, az0: cam.gAz, pol0: cam.gPol };
+      var snap = snapshot();
+      snap.mode = on ? 'shape' : (camLocked ? 'none' : 'orbit');
+      gesture = snap;
     } else if (pointers.size === 2) {
       var arr = Array.from(pointers.values()), a = arr[0], b = arr[1];
       gesture = {
-        mode: (a.on || b.on) ? 'twist' : 'pinch',
+        mode: camLocked ? 'none' : 'cam2',
         d0: Math.max(30, Math.sqrt(Math.pow(b.x - a.x, 2) + Math.pow(b.y - a.y, 2))),
-        ang0: Math.atan2(b.y - a.y, b.x - a.x), angAcc: 0,
-        twist0: springs.twist.g, zoom0: zoomFactor, az0: cam.gAz, midX: (a.x + b.x) / 2
+        zoom0: zoomFactor, az0: cam.gAz, pol0: cam.gPol,
+        midX: (a.x + b.x) / 2, midY: (a.y + b.y) / 2
       };
     }
   });
@@ -1608,32 +1881,33 @@ function bindInput() {
     var p = pointers.get(e.pointerId);
     if (!p || !gesture || overlay) return;
     p.x = e.clientX; p.y = e.clientY; idleT = 0;
+    if (gesture.mode === 'none') return;
     var k = 220 / Math.max(320, innerHeight);
     if (pointers.size === 1) {
       var dx = p.x - p.sx, dy = p.y - p.sy;
-      if (gesture.mode === 'bend') {
-        springs.bend.g = clamp(gesture.bend0 - dy * k, -180, 180);
-        springs.side.g = clamp(gesture.side0 + dx * k * 0.9, -140, 140);
+      if (gesture.mode === 'shape') {
+        if (gestureMode === 'bend') {
+          springs.bend.g = clamp(gesture.bend0 - dy * k, -180, 180);
+          springs.side.g = clamp(gesture.side0 + dx * k * 0.9, -140, 140);
+        } else if (gestureMode === 'twist') {
+          springs.twist.g = clamp(gesture.twist0 + dx * k * 1.15, -180, 180);
+          springs.arc.g = clamp(gesture.arc0 - dy * k * 0.9, -160, 160);
+        } else {
+          springs.squish.g = clamp(gesture.squish0 + dy * k * 0.62, 0, 100);
+          springs.side.g = clamp(gesture.side0 + dx * k * 0.9, -140, 140);
+        }
         markInteract();
-      } else {
+      } else if (gesture.mode === 'orbit') {
         cam.gAz = gesture.az0 - dx * 0.006;
         cam.gPol = clamp(gesture.pol0 - dy * 0.005, 0.35, 1.45);
       }
-    } else if (pointers.size === 2) {
+    } else if (pointers.size === 2 && gesture.mode === 'cam2') {
       var arr = Array.from(pointers.values()), a = arr[0], b = arr[1];
       var d = Math.max(30, Math.sqrt(Math.pow(b.x - a.x, 2) + Math.pow(b.y - a.y, 2)));
-      var ang = Math.atan2(b.y - a.y, b.x - a.x);
-      var da = ang - gesture.ang0;
-      while (da > Math.PI) da -= Math.PI * 2;
-      while (da < -Math.PI) da += Math.PI * 2;
-      gesture.ang0 = ang; gesture.angAcc += da;
       zoomFactor = clamp(gesture.zoom0 * gesture.d0 / d, 0.55, 1.9);
-      if (gesture.mode === 'twist') {
-        springs.twist.g = clamp(gesture.twist0 + gesture.angAcc / DEG * 1.15, -180, 180);
-        markInteract();
-      } else {
-        cam.gAz = gesture.az0 - ((a.x + b.x) / 2 - gesture.midX) * 0.004;
-      }
+      var mx = (a.x + b.x) / 2, my = (a.y + b.y) / 2;
+      cam.gAz = gesture.az0 - (mx - gesture.midX) * 0.005;
+      cam.gPol = clamp(gesture.pol0 - (my - gesture.midY) * 0.004, 0.35, 1.45);
     }
   });
   function up(e) {
@@ -1642,7 +1916,11 @@ function bindInput() {
     if (pointers.size === 1) {
       var a = Array.from(pointers.values())[0];
       a.sx = a.x; a.sy = a.y;
-      gesture = { mode: a.on ? 'bend' : 'orbit', bend0: springs.bend.g, side0: springs.side.g, az0: cam.gAz, pol0: cam.gPol };
+      gesture = {
+        mode: a.on ? 'shape' : (camLocked ? 'none' : 'orbit'),
+        bend0: springs.bend.g, twist0: springs.twist.g, side0: springs.side.g,
+        arc0: springs.arc.g, squish0: springs.squish.g, az0: cam.gAz, pol0: cam.gPol
+      };
     } else if (pointers.size === 0) {
       gesture = null;
     }
@@ -1651,7 +1929,7 @@ function bindInput() {
   el.addEventListener('pointercancel', up);
   el.addEventListener('lostpointercapture', up);
   el.addEventListener('wheel', function (e) {
-    if (overlay) return;
+    if (overlay || camLocked) return;
     e.preventDefault(); idleT = 0;
     zoomFactor = clamp(zoomFactor * Math.exp(e.deltaY * 0.0012), 0.55, 1.9);
   }, { passive: false });
@@ -1728,15 +2006,15 @@ function completeLevel() {
   var total = base + timeB + precB;
   save.stars[curLevel] = Math.max(save.stars[curLevel], stars);
   save.best[curLevel] = Math.max(save.best[curLevel], total);
-  save.unlocked = Math.max(save.unlocked, Math.min(10, curLevel + 2));
+  save.unlocked = Math.max(save.unlocked, Math.min(LEVEL_COUNT, curLevel + 2));
   persist();
   Sfx.win(); hap('success');
   cam.shake = reduced ? 0 : 0.14;
   burst(V3(playerGroup.position.x, playerBaseY + 0.8, playerGroup.position.z), MOBILE ? 90 : 140);
-  var last = curLevel === 9;
-  $('cTitle').textContent = last ? 'ПРИОРА КУПЛЕНА!' : 'СОГНУТО!';
+  var last = curLevel === LEVEL_COUNT - 1;
+  $('cTitle').textContent = last ? 'МЁД НА ВОЛОСАХ!' : 'СОГНУТО!';
   $('cName').textContent = last
-    ? 'В кредит. Невеста из Одессы довольна. Туфли счастливы.'
+    ? 'Суп гороховый съеден, ковры севера согнуты, газель заведена.'
     : ((curLevel + 1) + '. ' + lv.name + ' · ' + fmt(playTime) + ' · ' + d.n);
   $('cVerse').textContent = CHAPTERS[lv.ch].v;
   $('cBase').textContent = base;
@@ -1840,8 +2118,8 @@ function checkFun(dt) {
 }
 function openLevels() {
   var totStars = 0, totScore = 0, i;
-  for (i = 0; i < 10; i++) { totStars += save.stars[i]; totScore += save.best[i]; }
-  $('totals').textContent = '★ ' + totStars + '/30 · ' + totScore;
+  for (i = 0; i < LEVEL_COUNT; i++) { totStars += save.stars[i]; totScore += save.best[i]; }
+  $('totals').textContent = '★ ' + totStars + '/' + (LEVEL_COUNT * 3) + ' · ' + totScore;
   var wrap = $('chapters');
   wrap.innerHTML = '';
   CHAPTERS.forEach(function (ch, ci) {
@@ -1895,7 +2173,7 @@ function openLevels() {
 updateScoreChip();
 
 /* ---- кнопки ---- */
-$('playBtn').onclick = function () { goFullscreen(); Sfx.tick(); hap('light'); startLevel(Math.min(save.unlocked - 1, 9)); };
+$('playBtn').onclick = function () { goFullscreen(); Sfx.tick(); hap('light'); startLevel(Math.min(save.unlocked - 1, LEVEL_COUNT - 1)); };
 $('levelsBtn').onclick = function () { goFullscreen(); Sfx.tick(); openLevels(); };
 $('freeBtn').onclick = function () { goFullscreen(); Sfx.tick(); startSandbox(); };
 $('levelsClose').onclick = function () { Sfx.tick(); backFromLevels(); };
@@ -1912,8 +2190,8 @@ $('resumeBtn').onclick = function () { Sfx.tick(); openOverlay(null); };
 $('pRestart').onclick = function () { Sfx.tick(); startLevel(curLevel); };
 $('pLevels').onclick = function () { Sfx.tick(); openLevels(); };
 $('pMode').onclick = function () { Sfx.tick(); if (state === 'sandbox') openLevels(); else startSandbox(); };
-$('camBtn').onclick = function () { Sfx.tick(); resetCam(); };
-$('nextBtn').onclick = function () { Sfx.tick(); if (curLevel < 9) startLevel(curLevel + 1); else openLevels(); };
+$('camBtn').onclick = function () { Sfx.tick(); resetCam(); toast('⟲ Камера вернулась на место.'); };
+$('nextBtn').onclick = function () { Sfx.tick(); if (curLevel < LEVEL_COUNT - 1) startLevel(curLevel + 1); else openLevels(); };
 $('retryBtn').onclick = function () { Sfx.tick(); startLevel(curLevel); };
 $('failRetry').onclick = function () { Sfx.tick(); startLevel(curLevel); };
 $('failLevels').onclick = function () { Sfx.tick(); openLevels(); };
@@ -1932,21 +2210,14 @@ $('randBtn').onclick = function () {
   springs.squish.g = Math.round(Math.random() * 80);
 };
 $('bragBtn').onclick = function () {
+  Sfx.tick(); hap('light');
   var stars = save.stars[curLevel];
   var starStr = '';
   for (var i = 0; i < stars; i++) starStr += '★';
-  var text = '🥿 ГНУ ТУФЛЮ — я согнул «' + LEVELS[curLevel].name + '» на ' + starStr + ' за ' + fmt(playTime) + '! Согни свою:';
-  var url = location.href;
-  try {
-    if (tg && typeof tg.openTelegramLink === 'function') {
-      tg.openTelegramLink('https://t.me/share/url?url=' + encodeURIComponent(url) + '&text=' + encodeURIComponent(text));
-    } else if (navigator.share) {
-      navigator.share({ title: 'ГНУ ТУФЛЮ', text: text, url: url }).catch(function () {});
-    } else if (navigator.clipboard) {
-      navigator.clipboard.writeText(text + ' ' + url).then(function () { toast('Скопировано. Хвастайся в чате!'); }).catch(function () { toast(text); });
-    } else { toast(text); }
-  } catch (e) { toast(text); }
+  shareGame('🥿 ГНУ ТУФЛЮ — я согнул «' + LEVELS[curLevel].name + '» на ' + starStr + ' за ' + fmt(playTime) + '! Согни свою:');
 };
+$('pShare').onclick = function () { Sfx.tick(); hap('light'); shareGame(inviteText()); };
+$('lvShare').onclick = function () { Sfx.tick(); hap('light'); shareGame(inviteText()); };
 $('shotBtn').onclick = function () {
   Sfx.tick(); hap('light');
   try {
@@ -1959,7 +2230,11 @@ $('shotBtn').onclick = function () {
           var file = new File([blob], 'tufla.png', { type: 'image/png' });
           if (navigator.canShare({ files: [file] })) {
             shared = true;
-            navigator.share({ files: [file], title: 'ГНУ ТУФЛЮ' }).catch(function () {});
+            navigator.share({
+              files: [file],
+              title: 'ГНУ ТУФЛЮ',
+              text: '🥿 Моя туфля в ГНУ ТУФЛЮ — ' + GAME_URL
+            }).catch(function () {});
           }
         }
       } catch (e) {}
@@ -1983,7 +2258,7 @@ $('wipeBtn').onclick = function () {
     $('wipeBtn').textContent = 'Точно стереть? Туфля всё помнит. Нажми ещё раз.';
     return;
   }
-  save = { sound: save.sound, diff: diff, stars: [0,0,0,0,0,0,0,0,0,0], best: [0,0,0,0,0,0,0,0,0,0], unlocked: 1, ach: {} };
+  save = { sound: save.sound, diff: diff, stars: zeroArr(), best: zeroArr(), unlocked: 1, ach: {}, gesture: gestureMode, camLock: camLocked };
   persist(); updateScoreChip(); openLevels();
   toast('Прогресс стёрт. Туфля сделала вид, что не заметила.');
 };
@@ -2047,7 +2322,7 @@ function loop(now) {
     checkFun(dt);
   }
 
-  if (idleT > 4 && !reduced && !overlay) cam.gAz += dt * 0.05;
+  if (idleT > 4 && !reduced && !overlay && !camLocked) cam.gAz += dt * 0.05;
   cam.az += (cam.gAz - cam.az) * Math.min(1, dt * 8);
   cam.pol += (cam.gPol - cam.pol) * Math.min(1, dt * 8);
   cam.gD = baseDist * zoomFactor;
@@ -2136,7 +2411,7 @@ function loop(now) {
     if (overlay === 'error') openOverlay('splash');
     lastT = performance.now();
     requestAnimationFrame(loop);
-    setTimeout(function () { $('hint').classList.add('gone'); }, 11000);
+    setTimeout(function () { $('hint').classList.add('gone'); }, 12000);
   } catch (e) {
     if (window.console && console.error) console.error(e);
     var msg = (e && e.message) ? e.message : 'сеть';
