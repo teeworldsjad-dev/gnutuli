@@ -46,6 +46,10 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--gold);outline-o
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E")}
 #vignette{position:fixed;inset:0;z-index:2;pointer-events:none;background:radial-gradient(ellipse at 50% 40%,transparent 50%,rgba(4,6,10,.66) 100%)}
 
+/* === БЛОК 5-6: вспышка при разрыве === */
+#flash{position:fixed;inset:0;z-index:6;pointer-events:none;background:radial-gradient(circle at 50% 50%,rgba(255,92,92,.85),rgba(179,36,63,.4) 40%,transparent 70%);opacity:0;transition:opacity .08s}
+#flash.on{opacity:1}
+
 body.mobile #grain{display:none}
 body.mobile #bg::before,body.mobile #bg::after{animation:none;filter:blur(40px);opacity:.42;width:52vmax;height:52vmax}
 body.mobile .iconBtn,body.mobile .stat,body.mobile .chip,body.mobile #dock{backdrop-filter:none}
@@ -66,6 +70,7 @@ body.mobile #splash{background:rgba(6,9,14,.55)}
 .stat{background:var(--panel);border:1px solid var(--line2);border-radius:999px;padding:5px 11px;font-size:12px;font-weight:800;font-variant-numeric:tabular-nums;backdrop-filter:blur(12px);color:var(--ink)}
 .stat.warn{color:var(--red);border-color:rgba(255,92,92,.5);animation:pulse 1s infinite}
 .stat.lock{color:var(--cyan);border-color:rgba(63,216,226,.5)}
+.stat.torn{color:var(--magenta);border-color:rgba(255,79,147,.6);animation:pulse 1s infinite}
 @keyframes pulse{50%{transform:scale(1.06)}}
 #hint{position:fixed;left:50%;transform:translateX(-50%);bottom:330px;z-index:4;background:rgba(13,18,26,.94);border:1px solid var(--line);border-radius:999px;padding:8px 16px;font-size:12px;color:var(--amber);pointer-events:none;transition:opacity .6s;white-space:nowrap;max-width:92vw;overflow:hidden;text-overflow:ellipsis}
 #hint.gone{opacity:0}
@@ -92,10 +97,35 @@ body.mobile #splash{background:rgba(6,9,14,.55)}
 #gestureSeg button.on{background:linear-gradient(120deg,var(--gold),#ff9d3e);color:#161006}
 #lockBtn{width:52px;border-radius:12px;background:rgba(255,255,255,.05);border:1px solid var(--line2);font-size:17px;color:var(--muted);transition:border-color .2s,color .2s,box-shadow .2s}
 #lockBtn.on{color:var(--cyan);border-color:rgba(63,216,226,.6);box-shadow:0 0 14px rgba(63,216,226,.28);background:rgba(63,216,226,.10)}
-.srow{display:grid;grid-template-columns:86px 1fr 50px;align-items:center;gap:8px;height:31px}
+
+/* === БЛОК 4: подсказка мультитача === */
+#mtHint{position:fixed;left:50%;transform:translateX(-50%);top:calc(110px + var(--safeT));z-index:6;background:rgba(63,216,226,.18);border:1px solid rgba(63,216,226,.55);border-radius:999px;padding:6px 14px;font-size:11px;font-weight:800;color:var(--cyan);pointer-events:none;opacity:0;transition:opacity .3s;white-space:nowrap;backdrop-filter:blur(10px)}
+#mtHint.on{opacity:1}
+
+.srow{display:grid;grid-template-columns:86px 1fr 46px 30px;align-items:center;gap:6px;height:31px}
 .srow label{font-size:12px;font-weight:800;color:var(--ink);display:flex;align-items:center;gap:6px;white-space:nowrap}
 .srow label .si{color:var(--c);font-size:14px;width:16px;text-align:center}
 .srow output{font-size:12px;font-weight:800;font-variant-numeric:tabular-nums;color:var(--c);text-align:right}
+.resetBtn{
+  width:28px;height:28px;border-radius:50%;
+  background:rgba(255,255,255,.06);
+  border:1px solid var(--line2);
+  color:var(--c);
+  font-size:14px;font-weight:800;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;
+  transition:transform .14s cubic-bezier(.2,.9,.3,1.4),background .2s,border-color .2s,box-shadow .2s;
+  padding:0;line-height:1;
+}
+.resetBtn:hover{background:rgba(255,255,255,.12);border-color:var(--c)}
+.resetBtn:active{transform:scale(.82) rotate(-180deg)}
+.resetBtn.pop{animation:resetPop .45s cubic-bezier(.2,1.4,.4,1)}
+@keyframes resetPop{
+  0%{transform:scale(1)}
+  35%{transform:scale(1.18) rotate(-200deg);box-shadow:0 0 14px var(--c)}
+  100%{transform:scale(1) rotate(-360deg)}
+}
+
 input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:28px;background:transparent;touch-action:pan-x}
 input[type=range]::-webkit-slider-runnable-track{height:6px;border-radius:3px;background:linear-gradient(90deg,var(--c) var(--p,50%),rgba(255,255,255,.12) var(--p,50%))}
 input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:var(--c);border:3px solid #0d1219;margin-top:-8px;box-shadow:0 0 10px var(--c)}
@@ -189,6 +219,7 @@ input[type=range]::-moz-range-thumb{width:16px;height:16px;border-radius:50%;bac
 #toasts{position:fixed;top:calc(100px + var(--safeT));left:50%;transform:translateX(-50%);z-index:9;display:flex;flex-direction:column;gap:6px;align-items:center;pointer-events:none;width:max-content;max-width:90vw}
 .toast{background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:9px 16px;font-size:12px;font-weight:600;color:var(--ink);box-shadow:0 8px 30px rgba(0,0,0,.5);animation:toastIn .3s cubic-bezier(.2,.9,.3,1.3);max-width:90vw;text-align:center;line-height:1.4}
 .toast.quote{font-style:italic;color:var(--amber)}
+.toast.cry{color:var(--magenta);border-color:rgba(255,79,147,.6);box-shadow:0 0 24px rgba(255,79,147,.35);font-weight:800;font-size:14px}
 .toast.bye{opacity:0;transform:translateY(-8px);transition:.4s}
 @keyframes toastIn{from{opacity:0;transform:translateY(-12px) scale(.9)}}
 
@@ -215,6 +246,7 @@ noscript{position:fixed;inset:0;z-index:99;background:var(--bg0);color:var(--ink
   .actBtn{min-height:33px;font-size:11px}
   #holdWrap svg{width:46px;height:46px}
   #gestureSeg button{min-height:28px;font-size:11px}
+  .resetBtn{width:24px;height:24px;font-size:12px}
 }
 @media (prefers-reduced-motion:reduce){#bg::before,#bg::after{animation:none}}
 </style>
@@ -224,6 +256,7 @@ noscript{position:fixed;inset:0;z-index:99;background:var(--bg0);color:var(--ink
 <div id="stage"></div>
 <div id="grain"></div>
 <div id="vignette"></div>
+<div id="flash"></div>
 
 <header id="hud">
   <button class="iconBtn" id="menuBtn" aria-label="Меню">☰</button>
@@ -236,8 +269,10 @@ noscript{position:fixed;inset:0;z-index:99;background:var(--bg0);color:var(--ink
   <div class="stat" id="scoreChip">★ 0</div>
   <div class="stat" id="diffChip">Норм</div>
   <div class="stat lock" id="lockChip" hidden>🔒 камера</div>
+  <div class="stat torn" id="tornChip" hidden>💔 разорвана</div>
 </div>
-<div id="hint">☝️ тяни туфлю · ✌️ два пальца — только камера · 🔒 закрепляет вид</div>
+<div id="hint">☝️ тяни туфлю · ✌️ два пальца — камера · 🔒 закрепи → два пальца гнут туфлю</div>
+<div id="mtHint">✌️ Мультитач: гни двумя пальцами</div>
 
 <div id="bottom">
   <div id="holdWrap">
@@ -282,9 +317,9 @@ noscript{position:fixed;inset:0;z-index:99;background:var(--bg0);color:var(--ink
     <div class="segNote">Во время задания сложность не меняется.</div>
     <div class="howto">
       <div>☝️ Тяни туфлю — гнётся по выбранному режиму</div>
-      <div>✌️ Два пальца — только зум и поворот камеры</div>
-      <div>🔒 Закрепи камеру, чтобы вид не сбивался</div>
-      <div>🎚 Пять ползунков — точная доводка позы</div>
+      <div>✌️ Два пальца — зум и поворот камеры</div>
+      <div>🔒 Закрепи камеру → два пальца гнут туфлю</div>
+      <div>💥 Перегнул — туфля порвётся и закричит!</div>
     </div>
   </div>
 </div>
@@ -331,7 +366,7 @@ noscript{position:fixed;inset:0;z-index:99;background:var(--bg0);color:var(--ink
   <div class="card center">
     <div id="fIcon">🥿💔</div>
     <div class="cardTitle">ТУФЛЯ ОБИДЕЛАСЬ</div>
-    <div class="verse">Гнул руками я туфлю,<br/>Говорил, что не люблю…<br/>Туфли сильно обижались,<br/>У двери лежать остались.</div>
+    <div class="verse">Гнул руками я туфлю,<br/>Говорил, что не люблю…<br/>Туфли сильно обижались,<br/>У двери лежать осталась.</div>
     <div class="cardSub">Время вышло. Туфля ушла к двери.</div>
     <button class="btn gold" id="failRetry">↻ Ещё раз</button>
     <button class="btn ghost" id="failLevels">🗂 К заданиям</button>
@@ -486,11 +521,11 @@ function hap(kind) {
 
 /* ---------- сохранение ---------- */
 var LEVEL_COUNT = 20;
-var SAVE_KEY = 'tufla3d_v5';
+var SAVE_KEY = 'tufla3d_v6';
 function zeroArr() { var a = []; for (var i = 0; i < LEVEL_COUNT; i++) a.push(0); return a; }
 var save = { sound: true, diff: 'normal', stars: zeroArr(), best: zeroArr(), unlocked: 1, ach: {}, gesture: 'bend', camLock: false };
 try {
-  var raw = localStorage.getItem(SAVE_KEY) || localStorage.getItem('tufla3d_v4') || localStorage.getItem('tufla3d_v3');
+  var raw = localStorage.getItem(SAVE_KEY) || localStorage.getItem('tufla3d_v5') || localStorage.getItem('tufla3d_v4');
   var parsed = raw ? JSON.parse(raw) : null;
   if (parsed && parsed.stars && parsed.stars.length) {
     save.sound = parsed.sound !== false;
@@ -566,6 +601,7 @@ var Sfx = {
   tick: function () { this.ensure(); this.tone(1400, 900, 0.05, 'square', 0.05); },
   lock: function () { this.ensure(); this.tone(880, 880, 0.12, 'triangle', 0.14); this.tone(1760, 1760, 0.1, 'sine', 0.06, 0.02); },
   clack: function () { this.ensure(); this.tone(320, 180, 0.09, 'square', 0.09); },
+  pop: function () { this.ensure(); this.tone(640, 420, 0.11, 'sine', 0.12); this.tone(1280, 860, 0.08, 'triangle', 0.05, 0.01); },
   creak: function (i) {
     if (!this.ctx) return;
     var now = performance.now();
@@ -606,6 +642,49 @@ var Sfx = {
       f.frequency.exponentialRampToValueAtTime(2400, t + 0.24); f.Q.value = 1.5;
       var g = c.createGain(); this.env(g, t, 0.03, 0.12, 0.27);
       s.connect(f); f.connect(g); g.connect(this.master); s.start(t);
+    } catch (e) {}
+  },
+  /* === БЛОК 6: крик туфли при разрыве === */
+  cry: function () {
+    this.ensure(); if (!this.ctx) return;
+    try {
+      var c = this.ctx, t = c.currentTime;
+      /* Основной «визг» — пила с вибрато, частота 400→900→300 Гц */
+      var o = c.createOscillator();
+      o.type = 'sawtooth';
+      o.frequency.setValueAtTime(420, t);
+      o.frequency.exponentialRampToValueAtTime(920, t + 0.14);
+      o.frequency.exponentialRampToValueAtTime(280, t + 0.42);
+      /* Вибрато для драматизма */
+      var vib = c.createOscillator(); vib.frequency.value = 14;
+      var vibG = c.createGain(); vibG.gain.value = 55;
+      vib.connect(vibG); vibG.connect(o.frequency);
+      var g = c.createGain(); this.env(g, t, 0.012, 0.28, 0.42);
+      o.connect(g); g.connect(this.master);
+      o.start(t); vib.start(t); o.stop(t + 0.48); vib.stop(t + 0.48);
+      /* Второй голос — октавой выше, тише */
+      var o2 = c.createOscillator();
+      o2.type = 'triangle';
+      o2.frequency.setValueAtTime(840, t);
+      o2.frequency.exponentialRampToValueAtTime(1600, t + 0.12);
+      o2.frequency.exponentialRampToValueAtTime(560, t + 0.38);
+      var g2 = c.createGain(); this.env(g2, t, 0.01, 0.12, 0.38);
+      o2.connect(g2); g2.connect(this.master);
+      o2.start(t); o2.stop(t + 0.44);
+      /* Шумовой «треск» разрыва */
+      var s = c.createBufferSource(); s.buffer = this.noise(0.18);
+      var bp = c.createBiquadFilter(); bp.type = 'bandpass';
+      bp.frequency.value = 2400; bp.Q.value = 2.5;
+      var g3 = c.createGain(); this.env(g3, t, 0.004, 0.32, 0.16);
+      s.connect(bp); bp.connect(g3); g3.connect(this.master); s.start(t);
+      /* Низкий «бум» для веса */
+      var bass = c.createOscillator();
+      bass.type = 'sine';
+      bass.frequency.setValueAtTime(90, t);
+      bass.frequency.exponentialRampToValueAtTime(40, t + 0.3);
+      var g4 = c.createGain(); this.env(g4, t, 0.008, 0.35, 0.32);
+      bass.connect(g4); g4.connect(this.master);
+      bass.start(t); bass.stop(t + 0.36);
     } catch (e) {}
   },
   win: function () {
@@ -683,7 +762,9 @@ var ACHS = [
       var ks = ['bend', 'twist', 'side', 'arc'], n = 0;
       for (var i = 0; i < ks.length; i++) if (Math.abs(p[ks[i]]) >= 120) n++;
       return n >= 3;
-    } }
+    } },
+  /* === БЛОК 5: достижение за разрыв === */
+  { id: 'torn', e: '💔', n: 'Сердце туфли', d: 'Разорвать туфлю', test: function (p, meta) { return meta && meta.tornCount > 0; } }
 ];
 var QUIPS = [
   'Туфли сильно обижались и у двери лежать остались.',
@@ -702,6 +783,19 @@ var QUIPS = [
   'Люблю я запах магнитолы, та, что стоит в моей газели.',
   'Люблю мечтать, люблю писать и мёдом волосы ласкать.',
   'На багряном покрывале ковров севера.'
+];
+/* === БЛОК 5-6: реплики туфли при разрыве === */
+var TEAR_QUIPS = [
+  '💔 АААААА!',
+  '💔 Я РАЗОРВАЛАСЬ!',
+  '💔 ТЫ МЕНЯ СГУБИЛ!',
+  '💔 АЙ! БОЛЬНО!',
+  '💔 Я ЖЕ НЕ РЕЗИНОВАЯ!',
+  '💔 Даша, спаси!',
+  '💔 Прощай, Одесса...',
+  '💔 Ну всё, я в отключке!',
+  '💔 МОЯ ЗОЛОТАЯ СТЕЛЬКА!',
+  '💔 Я ТАК ТЕБЕ ДОВЕРЯЛА!'
 ];
 
 /* ---------- состояние ---------- */
@@ -725,11 +819,20 @@ function curPose() {
   poseScratch.squish = springs.squish.c;
   return poseScratch;
 }
-function toast(msg, quote, ms) {
+/* === БЛОК 5: состояние разрыва === */
+var torn = false;
+var tornTime = 0;
+var tornVelY = 0;
+var tornRotVel = { x: 0, y: 0, z: 0 };
+var tornFloorY = -1.6;
+var tornCount = 0; /* для достижений */
+var tearCooldown = 0; /* защита от повторного срабатывания в одном кадре */
+
+function toast(msg, quote, ms, isCry) {
   var w = $('toasts');
   while (w.children.length >= 3) w.removeChild(w.firstChild);
   var d = document.createElement('div');
-  d.className = 'toast' + (quote ? ' quote' : '');
+  d.className = 'toast' + (quote ? ' quote' : '') + (isCry ? ' cry' : '');
   d.textContent = msg;
   w.appendChild(d);
   setTimeout(function () {
@@ -770,7 +873,7 @@ function fmt(s) {
   return m + ':' + (sec < 10 ? '0' : '') + sec;
 }
 
-/* ---------- поделиться: ссылка на игру в Telegram ---------- */
+/* ---------- поделиться ---------- */
 function shareGame(text) {
   var msg = text || '🥿 ГНУ ТУФЛЮ — 3D симулятор сгибания туфли. Согни свою!';
   try {
@@ -801,30 +904,53 @@ function inviteText() {
   return '🥿 ГНУ ТУФЛЮ — я уже согнул туфли на ' + tot + '★ из ' + (LEVEL_COUNT * 3) + '. Слабо согнуть свою?';
 }
 
-/* ---------- ползунки и чипы ---------- */
+/* ---------- ползунки с индивидуальным сбросом ---------- */
 var sliderRefs = {}, chipRefs = {};
 PARAMS.forEach(function (p) {
   var row = document.createElement('div');
   row.className = 'srow';
   row.style.setProperty('--c', p.c);
+
   var label = document.createElement('label');
   var si = document.createElement('span'); si.className = 'si'; si.textContent = p.icon;
   label.appendChild(si);
   label.appendChild(document.createTextNode(p.name));
+
   var inp = document.createElement('input');
   inp.type = 'range'; inp.min = p.min; inp.max = p.max; inp.step = 1; inp.value = 0;
   inp.id = 'sl_' + p.key;
   inp.setAttribute('aria-label', p.name);
   label.htmlFor = inp.id;
+
   var out = document.createElement('output');
   out.id = 'sv_' + p.key; out.textContent = '0' + p.unit;
-  row.appendChild(label); row.appendChild(inp); row.appendChild(out);
+
+  var rb = document.createElement('button');
+  rb.className = 'resetBtn';
+  rb.type = 'button';
+  rb.setAttribute('aria-label', 'Сбросить «' + p.name + '» в исходное положение');
+  rb.title = 'Сбросить «' + p.name + '»';
+  rb.textContent = '↺';
+  rb.addEventListener('click', function (e) {
+    e.preventDefault();
+    e.stopPropagation();
+    resetParam(p.key, rb);
+  });
+
+  row.appendChild(label);
+  row.appendChild(inp);
+  row.appendChild(out);
+  row.appendChild(rb);
   $('sliders').appendChild(row);
-  sliderRefs[p.key] = { inp: inp, out: out, last: null };
+
+  sliderRefs[p.key] = { inp: inp, out: out, rb: rb, last: null };
+
   inp.addEventListener('input', function () {
+    if (torn) return; /* === БЛОК 5: блокировка при разрыве === */
     springs[p.key].g = Number(inp.value);
     markInteract(); Sfx.ensure();
   });
+
   var chip = document.createElement('div');
   chip.className = 'chip';
   chip.style.setProperty('--cc', p.c);
@@ -834,6 +960,26 @@ PARAMS.forEach(function (p) {
   $('chips').appendChild(chip);
   chipRefs[p.key] = { el: chip, v: cv, last: '', locked: false };
 });
+
+function resetParam(key, btn) {
+  if (springs[key].g === 0 && springs[key].c === 0) return;
+  springs[key].g = 0;
+  markInteract();
+  Sfx.pop();
+  hap('light');
+  if (btn) {
+    btn.classList.remove('pop');
+    void btn.offsetWidth;
+    btn.classList.add('pop');
+    setTimeout(function () { btn.classList.remove('pop'); }, 500);
+  }
+  if (state === 'sandbox') {
+    var allZero = true;
+    for (var k in springs) if (Math.abs(springs[k].c) > 0.5) { allZero = false; break; }
+    if (allZero) toast('Туфля снова гордая и прямая.');
+  }
+}
+
 function syncSlider(key) {
   var p = null;
   for (var i = 0; i < PARAMS.length; i++) if (PARAMS[i].key === key) p = PARAMS[i];
@@ -887,7 +1033,7 @@ function syncLock() {
 $('lockBtn').onclick = function () {
   camLocked = !camLocked; save.camLock = camLocked; persist();
   Sfx.clack(); hap('medium'); syncLock();
-  toast(camLocked ? '🔒 Камера закреплена. Гни спокойно.' : '🔓 Камера свободна. Тяни фон.');
+  toast(camLocked ? '🔒 Камера закреплена. Теперь два пальца гнут туфлю.' : '🔓 Камера свободна. Тяни фон.');
 };
 syncLock();
 
@@ -931,8 +1077,8 @@ $('pFull').onclick = function () {
    3D
    ============================================================ */
 var Q = MOBILE
-  ? { upS: 88, upR: 34, soleS: 58, soleR: 20, heelS: 18, heelR: 16, rimR: 7, tubeS: 0.62, tubeR: 5, eyeR: 6, eyeT: 10, footS: 30, footR: 8, dust: 110, conf: 220, px: 1.6, shadow: false, cones: 1 }
-  : { upS: 124, upR: 50, soleS: 90, soleR: 28, heelS: 26, heelR: 24, rimR: 9, tubeS: 1, tubeR: 6, eyeR: 8, eyeT: 14, footS: 44, footR: 10, dust: 220, conf: 360, px: 2, shadow: true, cones: 2 };
+  ? { upS: 96, upR: 38, soleS: 64, soleR: 22, heelS: 20, heelR: 18, rimR: 7, tubeS: 0.65, tubeR: 5, eyeR: 6, eyeT: 10, footS: 32, footR: 8, dust: 110, conf: 220, px: 1.6, shadow: false, cones: 1 }
+  : { upS: 132, upR: 54, soleS: 96, soleR: 30, heelS: 28, heelR: 26, rimR: 9, tubeS: 1, tubeR: 6, eyeR: 8, eyeT: 14, footS: 48, footR: 10, dust: 220, conf: 360, px: 2, shadow: true, cones: 2 };
 function seg(n) { return Math.max(8, Math.round(n * Q.tubeS)); }
 
 var THREE = null, renderer = null, scene = null, camera = null;
@@ -958,9 +1104,21 @@ function keysAt(keys, t) {
   }
   return keys[keys.length - 1][1];
 }
-var WK = [[0,0.02],[0.05,0.30],[0.12,0.36],[0.35,0.315],[0.62,0.42],[0.78,0.40],[0.90,0.30],[0.97,0.16],[1,0.015]];
-var TK = [[0,0.55],[0.04,0.72],[0.10,0.78],[0.20,0.74],[0.30,0.68],[0.40,0.63],[0.50,0.60],[0.62,0.52],[0.75,0.40],[0.85,0.30],[0.93,0.22],[1,0.14]];
-var SK = [[0,0.20],[0.15,0.21],[0.30,0.16],[0.45,0.05],[0.60,0.03],[0.85,0.03],[0.95,0.07],[1,0.10]];
+var WK = [
+  [0,0.025],[0.04,0.26],[0.08,0.32],[0.14,0.365],
+  [0.28,0.335],[0.42,0.36],[0.55,0.405],[0.68,0.425],
+  [0.78,0.40],[0.88,0.31],[0.94,0.20],[0.98,0.10],[1,0.015]
+];
+var TK = [
+  [0,0.56],[0.03,0.68],[0.07,0.74],[0.12,0.78],
+  [0.20,0.745],[0.30,0.685],[0.40,0.635],[0.50,0.605],
+  [0.62,0.525],[0.75,0.405],[0.85,0.305],[0.93,0.225],[1,0.14]
+];
+var SK = [
+  [0,0.21],[0.10,0.215],[0.20,0.195],[0.30,0.165],
+  [0.42,0.075],[0.55,0.04],[0.70,0.03],[0.85,0.035],
+  [0.95,0.075],[1,0.105]
+];
 function widthAt(t) { return keysAt(WK, t); }
 function topAt(t) { return keysAt(TK, t); }
 function soleAt(t) { return keysAt(SK, t); }
@@ -1159,26 +1317,109 @@ function footTexture() {
   var c = document.createElement('canvas'); c.width = 512; c.height = 128;
   var x = c.getContext('2d');
   var g = x.createLinearGradient(0, 0, 0, 128);
-  g.addColorStop(0, '#2a1a10'); g.addColorStop(0.5, '#3a2515'); g.addColorStop(1, '#241610');
+  g.addColorStop(0, '#3a2614'); g.addColorStop(0.5, '#4a3220'); g.addColorStop(1, '#2a1a0e');
   x.fillStyle = g; x.fillRect(0, 0, 512, 128);
   var i;
-  for (i = 0; i < 1400; i++) {
-    x.fillStyle = 'rgba(255,220,160,' + (Math.random() * 0.05).toFixed(3) + ')';
+  for (i = 0; i < 1800; i++) {
+    x.fillStyle = 'rgba(255,220,160,' + (Math.random() * 0.06).toFixed(3) + ')';
     x.fillRect(Math.random() * 512, Math.random() * 128, 2, 2);
   }
-  x.strokeStyle = 'rgba(214,168,86,.55)'; x.lineWidth = 3;
-  x.strokeRect(10, 10, 492, 108);
-  x.fillStyle = '#e8c274'; x.textAlign = 'center';
-  x.font = '900 40px Unbounded, sans-serif';
-  x.fillText('ГНУ', 104, 58);
-  x.font = '800 17px Manrope, sans-serif';
-  x.fillText('ЗОЛОТАЯ СТЕЛЬКА', 104, 86);
+  var goldGrad = x.createLinearGradient(0, 0, 512, 0);
+  goldGrad.addColorStop(0, '#c9962e');
+  goldGrad.addColorStop(0.5, '#f5d678');
+  goldGrad.addColorStop(1, '#c9962e');
+  x.strokeStyle = goldGrad; x.lineWidth = 4;
+  x.strokeRect(12, 12, 488, 104);
+  x.strokeStyle = 'rgba(214,168,86,.4)'; x.lineWidth = 1;
+  x.strokeRect(20, 20, 472, 88);
+  x.fillStyle = '#f5d678'; x.textAlign = 'center';
+  x.font = '900 42px Unbounded, sans-serif';
+  x.fillText('ГНУ', 104, 60);
+  x.font = '800 16px Manrope, sans-serif';
+  x.fillStyle = '#e8c274';
+  x.fillText('ЗОЛОТАЯ СТЕЛЬКА', 104, 88);
   x.font = '800 26px Manrope, sans-serif';
-  x.fillStyle = 'rgba(232,194,116,.75)';
-  x.fillText('43', 300, 74);
-  x.fillText('ОДЕССА', 420, 74);
+  x.fillStyle = 'rgba(245,214,120,.85)';
+  x.fillText('43', 300, 76);
+  x.fillText('ОДЕССА', 420, 76);
   var t = new THREE.CanvasTexture(c);
   t.colorSpace = THREE.SRGBColorSpace;
+  return t;
+}
+function leatherBumpTexture() {
+  var c = document.createElement('canvas'); c.width = 256; c.height = 256;
+  var x = c.getContext('2d');
+  x.fillStyle = '#808080'; x.fillRect(0, 0, 256, 256);
+  var i;
+  for (i = 0; i < 1400; i++) {
+    var v = 90 + Math.random() * 80;
+    x.fillStyle = 'rgb(' + v + ',' + v + ',' + v + ')';
+    var sz = 1 + Math.random() * 2.2;
+    x.beginPath();
+    x.arc(Math.random() * 256, Math.random() * 256, sz, 0, Math.PI * 2);
+    x.fill();
+  }
+  for (i = 0; i < 6000; i++) {
+    var v2 = 100 + Math.random() * 60;
+    x.fillStyle = 'rgba(' + v2 + ',' + v2 + ',' + v2 + ',0.5)';
+    x.fillRect(Math.random() * 256, Math.random() * 256, 1, 1);
+  }
+  for (i = 0; i < 40; i++) {
+    x.strokeStyle = 'rgba(50,50,50,' + (0.1 + Math.random() * 0.18).toFixed(3) + ')';
+    x.lineWidth = 0.6 + Math.random() * 0.8;
+    x.beginPath();
+    var sx = Math.random() * 256, sy = Math.random() * 256;
+    x.moveTo(sx, sy);
+    var len = 10 + Math.random() * 30;
+    var ang = Math.random() * Math.PI * 2;
+    x.lineTo(sx + Math.cos(ang) * len, sy + Math.sin(ang) * len);
+    x.stroke();
+  }
+  var t = new THREE.CanvasTexture(c);
+  t.wrapS = THREE.RepeatWrapping; t.wrapT = THREE.RepeatWrapping;
+  t.repeat.set(3, 3);
+  return t;
+}
+function suedeTexture() {
+  var c = document.createElement('canvas'); c.width = 96; c.height = 96;
+  var x = c.getContext('2d');
+  x.fillStyle = '#8a8a8a'; x.fillRect(0, 0, 96, 96);
+  for (var i = 0; i < 3500; i++) {
+    var v = Math.floor(86 + Math.random() * 80);
+    x.fillStyle = 'rgb(' + v + ',' + v + ',' + v + ')';
+    x.fillRect(Math.random() * 96, Math.random() * 96, 1.4, 1.4);
+  }
+  var t = new THREE.CanvasTexture(c);
+  t.wrapS = THREE.RepeatWrapping; t.wrapT = THREE.RepeatWrapping;
+  t.repeat.set(6, 6);
+  return t;
+}
+function soleBumpTexture() {
+  var c = document.createElement('canvas'); c.width = 128; c.height = 128;
+  var x = c.getContext('2d');
+  x.fillStyle = '#707070'; x.fillRect(0, 0, 128, 128);
+  x.strokeStyle = 'rgba(40,40,40,0.7)';
+  x.lineWidth = 2;
+  for (var i = 0; i < 8; i++) {
+    x.beginPath();
+    x.moveTo(0, i * 16 + 8);
+    x.lineTo(128, i * 16 + 8);
+    x.stroke();
+  }
+  for (var j = 0; j < 8; j++) {
+    x.beginPath();
+    x.moveTo(j * 16 + 8, 0);
+    x.lineTo(j * 16 + 8, 128);
+    x.stroke();
+  }
+  for (var k = 0; k < 1500; k++) {
+    var v = 90 + Math.random() * 50;
+    x.fillStyle = 'rgba(' + v + ',' + v + ',' + v + ',0.4)';
+    x.fillRect(Math.random() * 128, Math.random() * 128, 1, 1);
+  }
+  var t = new THREE.CanvasTexture(c);
+  t.wrapS = THREE.RepeatWrapping; t.wrapT = THREE.RepeatWrapping;
+  t.repeat.set(4, 4);
   return t;
 }
 
@@ -1191,12 +1432,12 @@ function buildShoe() {
   buckets.leather.push(parts.outer);
   buckets.lining.push(parts.inner);
 
-  var lipPts = [], lipN = MOBILE ? 48 : 72;
+  var lipPts = [], lipN = MOBILE ? 52 : 80;
   for (k = 0; k < lipN; k++) {
     p = lipPoint(k / lipN);
     lipPts.push(V3(p.x, p.y + 0.012, p.z));
   }
-  buckets.leather.push(prep(tube(lipPts, 0.028, 108, Q.rimR, true), 0.84, 0.84, 0.84));
+  buckets.leather.push(prep(tube(lipPts, 0.028, 116, Q.rimR, true), 0.84, 0.84, 0.84));
 
   buckets.sole.push(loft(Q.soleS, Q.soleR, 0.005, 0.995, function (t, phi) {
     var w = widthAt(t) * 1.07 + 0.012, sb = soleAt(t), cx = Math.cos(phi), sy = Math.sin(phi);
@@ -1287,50 +1528,63 @@ function buildShoe() {
   for (k = 0; k <= 26; k++) { var t2w = lerp(0.95, 0.05, k / 26); welt.push(V3(-(widthAt(t2w) * 1.07 + 0.014), soleAt(t2w) + 0.006, Z0 + SHOE_L * t2w)); }
   buckets.stitch.push(prep(tube(welt, 0.004, 96, 4, true)));
 
-  var bumpC = document.createElement('canvas'); bumpC.width = 128; bumpC.height = 128;
-  var bx = bumpC.getContext('2d');
-  bx.fillStyle = '#808080'; bx.fillRect(0, 0, 128, 128);
-  for (i = 0; i < 3200; i++) {
-    var vv = Math.floor(110 + Math.random() * 40);
-    bx.fillStyle = 'rgb(' + vv + ',' + vv + ',' + vv + ')';
-    bx.fillRect(Math.random() * 128, Math.random() * 128, 1.3, 1.3);
-  }
-  for (i = 0; i < 22; i++) {
-    bx.strokeStyle = 'rgba(60,60,60,' + (0.12 + Math.random() * 0.15).toFixed(3) + ')';
-    bx.beginPath();
-    var sx = Math.random() * 128, sy2 = Math.random() * 128;
-    bx.moveTo(sx, sy2);
-    bx.lineTo(sx + (Math.random() - 0.5) * 22, sy2 + (Math.random() - 0.5) * 22);
-    bx.stroke();
-  }
-  var bump = new THREE.CanvasTexture(bumpC);
-  bump.wrapS = THREE.RepeatWrapping; bump.wrapT = THREE.RepeatWrapping; bump.repeat.set(3, 3);
-
-  var suedeC = document.createElement('canvas'); suedeC.width = 64; suedeC.height = 64;
-  var sx2 = suedeC.getContext('2d');
-  sx2.fillStyle = '#8a8a8a'; sx2.fillRect(0, 0, 64, 64);
-  for (i = 0; i < 2200; i++) {
-    var v2 = Math.floor(96 + Math.random() * 70);
-    sx2.fillStyle = 'rgb(' + v2 + ',' + v2 + ',' + v2 + ')';
-    sx2.fillRect(Math.random() * 64, Math.random() * 64, 1.6, 1.6);
-  }
-  var suede = new THREE.CanvasTexture(suedeC);
-  suede.wrapS = THREE.RepeatWrapping; suede.wrapT = THREE.RepeatWrapping; suede.repeat.set(6, 6);
-
+  var bump = leatherBumpTexture();
+  var suede = suedeTexture();
+  var soleBump = soleBumpTexture();
   var dashC = document.createElement('canvas'); dashC.width = 16; dashC.height = 4;
   var dx = dashC.getContext('2d'); dx.fillStyle = '#ffffff'; dx.fillRect(0, 0, 9, 4);
   var dash = new THREE.CanvasTexture(dashC);
   dash.wrapS = THREE.RepeatWrapping; dash.repeat.set(52, 1);
 
   var mats = [
-    new THREE.MeshPhysicalMaterial({ color: 0x8a4526, roughness: 0.44, metalness: 0.06, clearcoat: 0.45, clearcoatRoughness: 0.34, bumpMap: bump, bumpScale: 0.014, vertexColors: true, envMapIntensity: 0.8, transparent: false, opacity: 1 }),
-    new THREE.MeshStandardMaterial({ color: 0x6d4a2e, roughness: 0.96, metalness: 0.02, bumpMap: suede, bumpScale: 0.01, vertexColors: true, envMapIntensity: 0.35, side: THREE.DoubleSide, transparent: false, opacity: 1 }),
-    new THREE.MeshStandardMaterial({ color: 0x2a1c12, roughness: 0.86, vertexColors: true, envMapIntensity: 0.3, transparent: false, opacity: 1 }),
-    new THREE.MeshStandardMaterial({ color: 0x241812, roughness: 0.72, vertexColors: true, envMapIntensity: 0.3, transparent: false, opacity: 1 }),
-    new THREE.MeshStandardMaterial({ color: 0x2b1a10, roughness: 0.76, vertexColors: true, envMapIntensity: 0.3, transparent: false, opacity: 1 }),
-    new THREE.MeshStandardMaterial({ color: 0xd8a955, roughness: 0.32, metalness: 1, vertexColors: true, envMapIntensity: 1.3, transparent: false, opacity: 1 }),
-    new THREE.MeshStandardMaterial({ color: 0xead9ac, roughness: 0.8, alphaMap: dash, alphaTest: 0.4, vertexColors: true, transparent: false, opacity: 1 }),
-    new THREE.MeshStandardMaterial({ map: footTexture(), color: 0xffffff, roughness: 0.55, metalness: 0.3, envMapIntensity: 0.7, side: THREE.DoubleSide, transparent: false, opacity: 1 })
+    new THREE.MeshPhysicalMaterial({
+      color: 0x8a4526, roughness: 0.42, metalness: 0.05,
+      clearcoat: 0.55, clearcoatRoughness: 0.30,
+      bumpMap: bump, bumpScale: 0.022,
+      vertexColors: true, envMapIntensity: 0.95,
+      sheen: 0.28, sheenRoughness: 0.82,
+      sheenColor: new THREE.Color(0x5a3020),
+      transparent: false, opacity: 1
+    }),
+    new THREE.MeshStandardMaterial({
+      color: 0x6d4a2e, roughness: 0.96, metalness: 0.02,
+      bumpMap: suede, bumpScale: 0.015,
+      vertexColors: true, envMapIntensity: 0.28,
+      side: THREE.DoubleSide, transparent: false, opacity: 1
+    }),
+    new THREE.MeshStandardMaterial({
+      color: 0x1a1208, roughness: 0.92, metalness: 0.02,
+      bumpMap: soleBump, bumpScale: 0.018,
+      vertexColors: true, envMapIntensity: 0.22,
+      transparent: false, opacity: 1
+    }),
+    new THREE.MeshStandardMaterial({
+      color: 0x241812, roughness: 0.72, metalness: 0.04,
+      bumpMap: bump, bumpScale: 0.014,
+      vertexColors: true, envMapIntensity: 0.32,
+      transparent: false, opacity: 1
+    }),
+    new THREE.MeshStandardMaterial({
+      color: 0x2b1a10, roughness: 0.78, metalness: 0.03,
+      vertexColors: true, envMapIntensity: 0.30,
+      transparent: false, opacity: 1
+    }),
+    new THREE.MeshStandardMaterial({
+      color: 0xd8a955, roughness: 0.24, metalness: 1.0,
+      vertexColors: true, envMapIntensity: 1.6,
+      transparent: false, opacity: 1
+    }),
+    new THREE.MeshStandardMaterial({
+      color: 0xead9ac, roughness: 0.82,
+      alphaMap: dash, alphaTest: 0.4,
+      vertexColors: true, transparent: false, opacity: 1
+    }),
+    new THREE.MeshStandardMaterial({
+      map: footTexture(), color: 0xffffff,
+      roughness: 0.42, metalness: 0.55,
+      envMapIntensity: 1.1, side: THREE.DoubleSide,
+      transparent: false, opacity: 1
+    })
   ];
   var order = ['leather', 'lining', 'sole', 'heel', 'lace', 'metal', 'stitch', 'foot'];
   var merged = [];
@@ -1539,7 +1793,7 @@ async function init3D() {
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, Q.px));
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure = 1.18;
+  renderer.toneMappingExposure = 1.22;
   renderer.shadowMap.enabled = Q.shadow;
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
   renderer.shadowMap.autoUpdate = false;
@@ -1559,8 +1813,8 @@ async function init3D() {
   pmrem.dispose();
   envTex.dispose();
 
-  scene.add(new THREE.HemisphereLight(0x3d4a5c, 0x0b0f14, 0.45));
-  spot = new THREE.SpotLight(0xffd9a0, 4.8, 0, 0.55, 0.7, 0);
+  scene.add(new THREE.HemisphereLight(0x4a5a70, 0x0b0f14, 0.5));
+  spot = new THREE.SpotLight(0xffd9a0, 5.5, 0, 0.55, 0.7, 0);
   spot.position.set(1.5, 7.5, 2.5);
   spot.castShadow = Q.shadow;
   if (Q.shadow) {
@@ -1572,14 +1826,15 @@ async function init3D() {
   }
   scene.add(spot);
   scene.add(spot.target);
-  var rim = new THREE.DirectionalLight(0x3fd8e2, 1.15);
+  var rim = new THREE.DirectionalLight(0x3fd8e2, 1.35);
   rim.position.set(-6, 4, -6);
   scene.add(rim);
-  if (!MOBILE) {
-    var fill = new THREE.DirectionalLight(0xff9d5c, 0.3);
-    fill.position.set(4, 2, 6);
-    scene.add(fill);
-  }
+  var fill = new THREE.DirectionalLight(0xff9d5c, 0.45);
+  fill.position.set(4, 2, 6);
+  scene.add(fill);
+  var under = new THREE.DirectionalLight(0x6a7a90, 0.18);
+  under.position.set(0, -3, 2);
+  scene.add(under);
 
   var floor = new THREE.Mesh(new THREE.CircleGeometry(34, 40), new THREE.MeshStandardMaterial({ color: 0x0d131b, roughness: 0.95 }));
   floor.rotation.x = -Math.PI / 2;
@@ -1829,9 +2084,95 @@ function placeBlob(blob, group, bounds, baseY, scale) {
   blob.scale.set(sx, sz, 1);
 }
 
+/* ============================================================
+   БЛОК 5: разрыв туфли
+   ============================================================ */
+function computeStress() {
+  var p = curPose();
+  var s = Math.abs(p.bend) / 180 + Math.abs(p.twist) / 180 + Math.abs(p.side) / 140 + Math.abs(p.arc) / 160 + p.squish / 100;
+  return s;
+}
+var TEAR_THRESHOLD = 2.35;
+
+function checkTear() {
+  if (torn) return;
+  if (tearCooldown > 0) return;
+  var s = computeStress();
+  if (s >= TEAR_THRESHOLD) tearShoe();
+}
+
+function tearShoe() {
+  if (torn) return;
+  torn = true;
+  tornTime = 0;
+  tornVelY = 0;
+  tornRotVel = {
+    x: (Math.random() - 0.5) * 5,
+    y: (Math.random() - 0.5) * 3,
+    z: (Math.random() - 0.5) * 5
+  };
+  tornCount++;
+  cam.shake = reduced ? 0 : 0.45;
+  /* Вспышка */
+  var flash = $('flash');
+  flash.classList.add('on');
+  setTimeout(function () { flash.classList.remove('on'); }, 180);
+  /* Крик */
+  Sfx.cry();
+  hap('error');
+  /* Реплика */
+  var q = TEAR_QUIPS[Math.floor(Math.random() * TEAR_QUIPS.length)];
+  toast(q, false, 4500, true);
+  /* Индикатор */
+  $('tornChip').hidden = false;
+  /* Блокируем чипы и hold */
+  $('holdWrap').classList.remove('on');
+  /* Достижение */
+  tryGrantTornAch();
+}
+
+function tryGrantTornAch() {
+  var a = null;
+  for (var i = 0; i < ACHS.length; i++) if (ACHS[i].id === 'torn') { a = ACHS[i]; break; }
+  if (!a) return;
+  if (save.ach[a.id]) return;
+  save.ach[a.id] = true; persist();
+  setTimeout(function () {
+    toast('🏅 Достижение: ' + a.n + ' ' + a.e);
+    Sfx.lock(); hap('success');
+  }, 900);
+}
+
+function healShoe() {
+  if (!torn) return;
+  torn = false;
+  tornTime = 0;
+  tornVelY = 0;
+  tornRotVel = { x: 0, y: 0, z: 0 };
+  /* Возвращаем туфлю на место */
+  playerGroup.rotation.set(0, 0, 0);
+  playerLift = -playerBend.apply(curPose()).minY;
+  playerGroup.position.y = playerBaseY + playerLift;
+  $('tornChip').hidden = true;
+  Sfx.whoosh();
+  hap('light');
+  toast('✨ Туфля собралась. Но помнит всё.');
+}
+
 /* ---- ввод ---- */
 var pointers = new Map();
 var gesture = null, lastTap = { t: 0, x: 0, y: 0 }, idleT = 0;
+var mtHintTimer = null;
+function showMtHint() {
+  $('mtHint').classList.add('on');
+  clearTimeout(mtHintTimer);
+  mtHintTimer = setTimeout(function () { $('mtHint').classList.remove('on'); }, 2200);
+}
+function hideMtHint() {
+  $('mtHint').classList.remove('on');
+  clearTimeout(mtHintTimer);
+}
+
 function bindInput() {
   var ray = new THREE.Raycaster(), ndc = new THREE.Vector2();
   var el = renderer.domElement;
@@ -1848,6 +2189,7 @@ function bindInput() {
   }
   el.addEventListener('pointerdown', function (e) {
     if (overlay) return;
+    if (torn) return; /* === БЛОК 5: блокировка при разрыве === */
     Sfx.ensure(); idleT = 0;
     try { el.setPointerCapture(e.pointerId); } catch (err) {}
     var on = hitShoe(e.clientX, e.clientY);
@@ -1869,17 +2211,39 @@ function bindInput() {
       gesture = snap;
     } else if (pointers.size === 2) {
       var arr = Array.from(pointers.values()), a = arr[0], b = arr[1];
-      gesture = {
-        mode: camLocked ? 'none' : 'cam2',
-        d0: Math.max(30, Math.sqrt(Math.pow(b.x - a.x, 2) + Math.pow(b.y - a.y, 2))),
-        zoom0: zoomFactor, az0: cam.gAz, pol0: cam.gPol,
-        midX: (a.x + b.x) / 2, midY: (a.y + b.y) / 2
-      };
+      var bothOn = a.on && b.on;
+      /* === БЛОК 4: мультитач при зафиксированной камере === */
+      if (camLocked && bothOn) {
+        var d0 = Math.hypot(b.x - a.x, b.y - a.y);
+        var ang0 = Math.atan2(b.y - a.y, b.x - a.x);
+        gesture = {
+          mode: 'multitouch',
+          d0: Math.max(30, d0),
+          ang0: ang0,
+          midX0: (a.x + b.x) / 2,
+          midY0: (a.y + b.y) / 2,
+          aY0: a.y, bY0: b.y,
+          bend0: springs.bend.g, twist0: springs.twist.g,
+          side0: springs.side.g, arc0: springs.arc.g,
+          squish0: springs.squish.g
+        };
+        showMtHint();
+      } else if (camLocked) {
+        gesture = { mode: 'none' };
+      } else {
+        gesture = {
+          mode: 'cam2',
+          d0: Math.max(30, Math.hypot(b.x - a.x, b.y - a.y)),
+          zoom0: zoomFactor, az0: cam.gAz, pol0: cam.gPol,
+          midX: (a.x + b.x) / 2, midY: (a.y + b.y) / 2
+        };
+      }
     }
   });
   el.addEventListener('pointermove', function (e) {
     var p = pointers.get(e.pointerId);
     if (!p || !gesture || overlay) return;
+    if (torn) return; /* === БЛОК 5: блокировка при разрыве === */
     p.x = e.clientX; p.y = e.clientY; idleT = 0;
     if (gesture.mode === 'none') return;
     var k = 220 / Math.max(320, innerHeight);
@@ -1901,13 +2265,38 @@ function bindInput() {
         cam.gAz = gesture.az0 - dx * 0.006;
         cam.gPol = clamp(gesture.pol0 - dy * 0.005, 0.35, 1.45);
       }
-    } else if (pointers.size === 2 && gesture.mode === 'cam2') {
+    } else if (pointers.size === 2) {
       var arr = Array.from(pointers.values()), a = arr[0], b = arr[1];
-      var d = Math.max(30, Math.sqrt(Math.pow(b.x - a.x, 2) + Math.pow(b.y - a.y, 2)));
-      zoomFactor = clamp(gesture.zoom0 * gesture.d0 / d, 0.55, 1.9);
-      var mx = (a.x + b.x) / 2, my = (a.y + b.y) / 2;
-      cam.gAz = gesture.az0 - (mx - gesture.midX) * 0.005;
-      cam.gPol = clamp(gesture.pol0 - (my - gesture.midY) * 0.004, 0.35, 1.45);
+      if (gesture.mode === 'multitouch') {
+        /* === БЛОК 4: мультитач-сгибание === */
+        var d = Math.max(30, Math.hypot(b.x - a.x, b.y - a.y));
+        var ang = Math.atan2(b.y - a.y, b.x - a.x);
+        var midX = (a.x + b.x) / 2;
+        var midY = (a.y + b.y) / 2;
+        var dAng = ang - gesture.ang0;
+        while (dAng > Math.PI) dAng -= Math.PI * 2;
+        while (dAng < -Math.PI) dAng += Math.PI * 2;
+        var dx = midX - gesture.midX0;
+        var dy = midY - gesture.midY0;
+        /* Среднее смещение → bend/side */
+        springs.bend.g = clamp(gesture.bend0 - dy * k, -180, 180);
+        springs.side.g = clamp(gesture.side0 + dx * k * 0.9, -140, 140);
+        /* Поворот линии между пальцами → twist */
+        springs.twist.g = clamp(gesture.twist0 + dAng / DEG * 1.15, -180, 180);
+        /* Изменение расстояния → squish (сведение=сжатие, разведение=растяжение) */
+        var dScale = gesture.d0 / d;
+        springs.squish.g = clamp(gesture.squish0 + (dScale - 1) * 70, 0, 100);
+        /* Разница Y между пальцами → arc */
+        var dyDiff = (b.y - a.y) - (gesture.bY0 - gesture.aY0);
+        springs.arc.g = clamp(gesture.arc0 - dyDiff * k * 0.5, -160, 160);
+        markInteract();
+      } else if (gesture.mode === 'cam2') {
+        var d = Math.max(30, Math.hypot(b.x - a.x, b.y - a.y));
+        zoomFactor = clamp(gesture.zoom0 * gesture.d0 / d, 0.55, 1.9);
+        var mx = (a.x + b.x) / 2, my = (a.y + b.y) / 2;
+        cam.gAz = gesture.az0 - (mx - gesture.midX) * 0.005;
+        cam.gPol = clamp(gesture.pol0 - (my - gesture.midY) * 0.004, 0.35, 1.45);
+      }
     }
   });
   function up(e) {
@@ -1921,15 +2310,17 @@ function bindInput() {
         bend0: springs.bend.g, twist0: springs.twist.g, side0: springs.side.g,
         arc0: springs.arc.g, squish0: springs.squish.g, az0: cam.gAz, pol0: cam.gPol
       };
+      if (camLocked && a.on) showMtHint();
     } else if (pointers.size === 0) {
       gesture = null;
+      hideMtHint();
     }
   }
   el.addEventListener('pointerup', up);
   el.addEventListener('pointercancel', up);
   el.addEventListener('lostpointercapture', up);
   el.addEventListener('wheel', function (e) {
-    if (overlay || camLocked) return;
+    if (overlay || camLocked || torn) return;
     e.preventDefault(); idleT = 0;
     zoomFactor = clamp(zoomFactor * Math.exp(e.deltaY * 0.0012), 0.55, 1.9);
   }, { passive: false });
@@ -1947,6 +2338,8 @@ function resetSprings() {
     chipRefs[p.key].locked = false;
     chipRefs[p.key].el.className = 'chip';
   });
+  /* === БЛОК 5: сброс разрыва === */
+  healShoe();
 }
 function startLevel(i) {
   starTimers.forEach(clearTimeout); starTimers = [];
@@ -2047,6 +2440,7 @@ function failLevel() {
   openOverlay('fail');
 }
 function checkMatch(dt) {
+  if (torn) return; /* === БЛОК 5: не засчитываем при разрыве === */
   var lv = LEVELS[curLevel], d = DIFFS[runDiff], p = curPose();
   var all = true, errSum = 0, errN = 0;
   PARAMS.forEach(function (pm) {
@@ -2096,11 +2490,13 @@ function sandboxChips() {
   });
 }
 function checkFun(dt) {
+  if (torn) return; /* === БЛОК 5: не проверяем ачивки при разрыве === */
   achCd -= dt; quipCd -= dt;
   var p = curPose();
   if (achCd <= 0) {
     achCd = 0.3;
     ACHS.forEach(function (a) {
+      if (a.id === 'torn') return; /* особое — выдаётся при разрыве */
       if (!save.ach[a.id] && a.test(p)) {
         save.ach[a.id] = true; persist();
         toast('🏅 Достижение: ' + a.n + ' ' + a.e);
@@ -2197,11 +2593,27 @@ $('failRetry').onclick = function () { Sfx.tick(); startLevel(curLevel); };
 $('failLevels').onclick = function () { Sfx.tick(); openLevels(); };
 $('sandboxCard').onclick = function () { Sfx.tick(); startSandbox(); };
 $('resetBtn').onclick = function () {
+  /* === БЛОК 5: если туфля разорвана — сначала чиним === */
+  if (torn) {
+    healShoe();
+    PARAMS.forEach(function (p) { springs[p.key].g = 0; });
+    return;
+  }
   Sfx.whoosh(); hap('light'); markInteract();
-  PARAMS.forEach(function (p) { springs[p.key].g = 0; });
+  PARAMS.forEach(function (p) {
+    springs[p.key].g = 0;
+    var rb = sliderRefs[p.key].rb;
+    if (rb) {
+      rb.classList.remove('pop');
+      void rb.offsetWidth;
+      rb.classList.add('pop');
+      setTimeout(function () { rb.classList.remove('pop'); }, 500);
+    }
+  });
   if (state === 'sandbox') toast('Туфля снова гордая и прямая.');
 };
 $('randBtn').onclick = function () {
+  if (torn) { toast('💔 Сначала собери туфлю — нажми «Разогнуть»'); return; }
   Sfx.whoosh(); hap('medium'); markInteract();
   springs.bend.g = Math.round((Math.random() * 2 - 1) * 180);
   springs.twist.g = Math.round((Math.random() * 2 - 1) * 180);
@@ -2278,6 +2690,39 @@ function loop(now) {
   var t = now / 1000;
   var i;
 
+  /* === БЛОК 5: физика падения при разрыве === */
+  if (torn) {
+    tornTime += dt;
+    tornVelY += 9.8 * dt;
+    playerGroup.position.y -= tornVelY * dt;
+    playerGroup.rotation.x += tornRotVel.x * dt;
+    playerGroup.rotation.y += tornRotVel.y * dt;
+    playerGroup.rotation.z += tornRotVel.z * dt;
+    /* Отскок от пола */
+    if (playerGroup.position.y < tornFloorY) {
+      playerGroup.position.y = tornFloorY;
+      if (tornVelY > 1.5) {
+        tornVelY = -tornVelY * 0.35;
+        tornRotVel.x *= 0.5;
+        tornRotVel.y *= 0.5;
+        tornRotVel.z *= 0.5;
+        /* Звук шлепка */
+        try { Sfx.tone(120, 60, 0.14, 'sine', 0.18); } catch (e) {}
+      } else {
+        tornVelY = 0;
+        tornRotVel.x *= 0.85;
+        tornRotVel.y *= 0.85;
+        tornRotVel.z *= 0.85;
+      }
+    }
+    /* Затухание вращения со временем */
+    if (tornTime > 2) {
+      tornRotVel.x *= Math.pow(0.5, dt);
+      tornRotVel.y *= Math.pow(0.5, dt);
+      tornRotVel.z *= Math.pow(0.5, dt);
+    }
+  }
+
   var dirty = false, speed = 0;
   for (i = 0; i < PARAMS.length; i++) {
     var s = springs[PARAMS[i].key];
@@ -2288,7 +2733,7 @@ function loop(now) {
     speed += Math.abs(s.v);
     syncSlider(PARAMS[i].key);
   }
-  if (dirty) {
+  if (dirty && !torn) {
     playerLift = -playerBend.apply(curPose()).minY;
     renderer.shadowMap.needsUpdate = true;
     if (speed > 60) {
@@ -2296,9 +2741,11 @@ function loop(now) {
       if (creakAcc > 14) { creakAcc = 0; Sfx.creak(clamp(speed / 400, 0.2, 1)); }
     }
   }
-  playerGroup.position.y += ((playerBaseY + playerLift) - playerGroup.position.y) * Math.min(1, dt * 12);
+  if (!torn) {
+    playerGroup.position.y += ((playerBaseY + playerLift) - playerGroup.position.y) * Math.min(1, dt * 12);
+  }
   ghostGroup.position.y += ((ghostBaseY + ghostLift * ghostScale) - ghostGroup.position.y) * Math.min(1, dt * 12);
-  placeBlob(playerBlob, playerGroup, playerBend.res, playerBaseY, 1);
+  if (!torn) placeBlob(playerBlob, playerGroup, playerBend.res, playerBaseY, 1);
   if (ghostBlob.visible) placeBlob(ghostBlob, ghostGroup, ghostBend.res, ghostBaseY, ghostScale);
 
   var active = (state === 'playing' || state === 'sandbox') && !overlay;
@@ -2320,9 +2767,12 @@ function loop(now) {
       sandboxChips();
     }
     checkFun(dt);
+    /* === БЛОК 5: проверка разрыва === */
+    if (!torn) checkTear();
   }
+  if (tearCooldown > 0) tearCooldown -= dt;
 
-  if (idleT > 4 && !reduced && !overlay && !camLocked) cam.gAz += dt * 0.05;
+  if (idleT > 4 && !reduced && !overlay && !camLocked && !torn) cam.gAz += dt * 0.05;
   cam.az += (cam.gAz - cam.az) * Math.min(1, dt * 8);
   cam.pol += (cam.gPol - cam.pol) * Math.min(1, dt * 8);
   cam.gD = baseDist * zoomFactor;
